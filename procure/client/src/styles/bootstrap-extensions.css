@@ -1,0 +1,230 @@
+.text-strike {
+  text-decoration: line-through !important;
+}
+.text-wrap {
+  /* opposite of builtin .text-nowrap */
+  white-space: pre-wrap !important;
+}
+
+.list-group-compact > .list-group-item,
+.list-group-item-compact {
+  padding: 0.3rem 0.6rem;
+}
+
+/* borders */
+.border-style-solid {
+  border-style: solid !important;
+}
+.border-style-dotted {
+  border-style: dotted !important;
+}
+.border-style-dashed {
+  border-style: dashed !important;
+}
+
+/* opacity */
+
+.o-30 {
+  opacity: 0.3;
+}
+.o-50 {
+  opacity: 0.5;
+}
+.o-70 {
+  opacity: 0.7;
+}
+
+/* cursors  */
+
+.pointer-events-none {
+  pointer-events: none;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+.cursor-progress {
+  cursor: progress;
+}
+.cursor-wait {
+  cursor: wait;
+}
+.cursor-s-resize {
+  cursor: s-resize;
+}
+
+/* thumbnail is fixed size container */
+.img-thumbnail-wrapper {
+  width: 5rem;
+  height: 5rem;
+  overflow: hidden;
+}
+.img-thumbnail {
+  max-height: 100%;
+}
+
+.minh-100vh {
+  min-height: 100vh;
+}
+.minh-0 {
+  min-height: 0;
+}
+@media (min-width: 576px) {
+  .minh-sm-100vh {
+    min-height: 100vh !important;
+  }
+  .minh-sm-0 {
+    min-height: 0 !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .minh-md-100vh {
+    min-height: 100vh !important;
+  }
+  .minh-md-0 {
+    min-height: 0 !important;
+  }
+}
+
+@media (min-width: 992px) {
+  .minh-lg-100vh {
+    min-height: 100vh !important;
+  }
+  .minh-lg-0 {
+    min-height: 0 !important;
+  }
+}
+
+@media (min-width: 1200px) {
+  .minh-xl-100vh {
+    min-height: 100vh !important;
+  }
+  .minh-xl-0 {
+    min-height: 0 !important;
+  }
+}
+
+/* when using as a grid of line, put margins on both sides
+  so that a background-color can be applied to `.form-row`.
+  some of the 0.5rem spacing is put on that row so the backgrounds dont touch.
+*/
+.form-group-lines .form-row {
+  margin-bottom: 0.125rem;
+  margin-top: 0.125rem;
+}
+.form-group-lines .form-group {
+  margin-bottom: 0.375rem;
+  margin-top: 0.375rem;
+}
+
+/* blocking form while busy */
+.form-shade-wrapper {
+  position: relative;
+}
+.form-shade-wrapper .form-shade {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  z-index: 100;
+  pointer-events: none;
+
+  /* background: rgba(255, 255, 255, 0); */
+  background: white;
+  opacity: 0;
+  transition: opacity 0.3s linear 1s;
+}
+.form-shade-wrapper .form-shade.form-shade-blocked {
+  transition: opacity 2s linear 5s;
+  opacity: 0.5;
+  /* background: rgba(255, 255, 255, 0.5); */
+}
+.form-shade-wrapper .form-shade.form-shade-success {
+  background: rgba(40, 167, 69, 0.5) !important;
+}
+
+/* tmp colors */
+.bg-info-light {
+  background-color: rgba(23, 162, 184, 0.34) !important;
+}
+.bg-danger-light {
+  background-color: rgba(220, 53, 69, 0.34) !important;
+}
+.bg-primary-shy,
+.bg-primary-shy-hover:hover {
+  /* primary, 50% desaturated, brightness like `aliceblue` */
+  /* background-color: hsla(211, 50%, 97%, 1) !important; */
+
+  /* yellow-ish, like possible 'when editing' background */
+  /* background-color: hsla(53, 36%, 95%, 1) !important; */
+
+  /* like .table-hover tbody tr:hover  */
+  background-color: rgba(0, 0, 0, 0.075);
+}
+/* workaround, .form-control-lg only for inputs, BS has nothing for labels/form-groups
+  copy/paste some styles from there
+*/
+
+.form-group-lg {
+  font-size: 1.25rem;
+  line-height: 1.5;
+}
+.form-group-lg .custom-select-lg {
+  font-size: inherit; /* BS defined 125% for whatever reason */
+}
+
+/* WIP compact form */
+
+.form-compact .form-group {
+  margin-bottom: 0.75rem;
+}
+
+.form-compact label {
+  font-size: 0.875rem;
+  line-height: 1.6rem;
+}
+
+/* dropdown multiselect */
+/* from .dropdown-item:hover, .dropdown-item:focus { */
+.dropdown-item:hover + .dropdown-item-subgroup,
+.dropdown-item:focus + .dropdown-item-subgroup {
+  color: #16181b;
+  text-decoration: none;
+  background-color: #f8f9fa;
+}
+
+.grouped-multiselect .dropdown-menu {
+  height: auto;
+  max-height: 22.8rem;
+  overflow-x: hidden;
+}
+
+/* WIP ButonRadio comp */
+/* NOTE selectors based on `.custom-select`, style like `.btn-outline-danger` */
+.was-validated .ui-btn-radio-state-invalid label.btn,
+.ui-btn-radio.is-invalid label.btn {
+  color: #dc3545;
+  background-color: transparent;
+  background-image: none;
+  border-color: #dc3545;
+}
+
+.was-validated .ui-btn-radio-state-invalid label.btn:hover,
+.ui-btn-radio.is-invalid label.btn:hover {
+  color: #fff;
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.was-validated .ui-btn-radio-state-invalid label.btn:focus,
+.ui-btn-radio.is-invalid label.btn:focus {
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.5);
+}
+
+.was-validated .ui-btn-radio-state-invalid ~ .invalid-feedback,
+.was-validated .ui-btn-radio-state-invalid ~ .invalid-tooltip,
+.ui-btn-radio.is-invalid ~ .invalid-feedback,
+.ui-btn-radio.is-invalid ~ .invalid-tooltip {
+  display: block;
+}

@@ -1,0 +1,4 @@
+- user:
+    name: '{{leihs_admin_user}}'
+    system: yes
+  name: create leihs-admin user

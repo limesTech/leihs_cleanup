@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+INVENTORY_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" ; cd .. > /dev/null 2>&1 && pwd -P)"
+
+cd $INVENTORY_DIR
+
+if [ ! -f "$INVENTORY_DIR/.transcrypt_key.txt" ]; then
+  echo "$INVENTORY_DIR/.transcrypt_key.txt is not present"
+  exit -1
+else
+  gpg -a --encrypt \
+      -r Thomas.Schank@zhdk.ch \
+      -r ci-exec-user@ci-executor-leihs \
+      -r jan.pistor@zhdk.ch \
+      -r manuel.radl@zhdk.ch \
+      -r matus.kmit@zhdk.ch \
+      -r urs.vanbinsbergen@zhdk.ch \
+      "$INVENTORY_DIR/.transcrypt_key.txt"
+fi

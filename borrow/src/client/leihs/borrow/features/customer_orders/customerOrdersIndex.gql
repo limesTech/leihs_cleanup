@@ -1,0 +1,125 @@
+query customerOrdersIndex(
+  $userId: UUID
+  $searchTerm: NonEmptyText
+  $poolIds: [UUID!]
+  $from: Date
+  $until: Date
+) {
+  openRentals: rentals(
+    userId: $userId
+    rentalState: OPEN
+    searchTerm: $searchTerm
+    poolIds: $poolIds
+    from: $from
+    until: $until
+    orderBy: [{ attribute: CREATED_AT, direction: DESC }]
+  ) {
+    ...rentalConProps
+  }
+  closedRentals: rentals(
+    userId: $userId
+    rentalState: CLOSED
+    searchTerm: $searchTerm
+    poolIds: $poolIds
+    from: $from
+    until: $until
+    orderBy: [{ attribute: CREATED_AT, direction: DESC }]
+  ) {
+    ...rentalConProps
+  }
+  currentLendings: reservations(
+    userId: $userId
+    metaState: CURRENT_LENDING
+    searchTerm: $searchTerm
+    poolIds: $poolIds
+    from: $from
+    until: $until
+  ) {
+    ...reservationProps
+  }
+}
+
+fragment rentalConProps on RentalsConnection {
+  edges {
+    node {
+      ...rentalProps
+    }
+  }
+}
+
+fragment rentalProps on Rental {
+  id
+
+  isCustomerOrder
+  state: rentalState
+  fulfillmentStates: refinedRentalState
+
+  title
+  purpose
+
+  fromDate
+  untilDate
+
+  totalDays
+  totalQuantity
+
+  approveFulfillment {
+    fulfilledQuantity
+    toFulfillQuantity
+  }
+
+  rejectedQuantity
+  expiredUnapprovedQuantity
+
+  pickupFulfillment {
+    fulfilledQuantity
+    toFulfillQuantity
+  }
+  expiredQuantity
+
+  returnFulfillment {
+    fulfilledQuantity
+    toFulfillQuantity
+  }
+
+  overdueQuantity
+
+  createdAt
+  updatedAt
+
+  reservations {
+    id
+  }
+}
+
+fragment reservationProps on Reservation {
+  id
+  status
+  startDate
+  endDate
+  actualEndDate
+  model {
+    id
+    name
+    images {
+      id
+      imageUrl
+    }
+    coverImage {
+      id
+      imageUrl
+    }
+  }
+  option {
+    id
+    name
+  }
+  quantity
+  inventoryPool {
+    id
+    name
+  }
+  item {
+    inventoryCode
+  }
+}

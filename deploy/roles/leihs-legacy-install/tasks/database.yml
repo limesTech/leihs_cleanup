@@ -1,0 +1,13 @@
+- copy:
+    content: |
+      production:
+        adapter: postgresql
+        host: {{database.host}}
+        port: {{database.port}}
+        pool: 25
+        encoding: unicode
+        username: {{database.username}}
+        password: {{database.password}}
+        database: {{database.database}}
+    dest: "{{leihs_legacy_dir}}/config/database.yml"
+  name: configure legacy database

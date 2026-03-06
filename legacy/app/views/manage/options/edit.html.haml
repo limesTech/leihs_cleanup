@@ -1,0 +1,19 @@
+- content_for :title, "#{_("Edit %s") % _("Option")}"
+- content_for :inventory_section, "active"
+
+.wrapper.margin-top-m
+
+  = render :partial => 'manage/tabs/inventory', :locals => {:active_tab => :inventory}
+
+  .row.content-wrapper.min-height-xl.min-width-full.straight-top
+
+    = form_tag manage_update_option_path(current_inventory_pool.id, @option.id), method: :put do
+
+      .margin-top-l.padding-horizontal-m
+        .row
+          .col2of3
+            %h1.headline-l= "#{_("Edit %s") % _("Option")}"
+            %h2.headline-s.light= _("Make changes and save")
+          = render 'buttons'
+
+      = render 'form_fields'

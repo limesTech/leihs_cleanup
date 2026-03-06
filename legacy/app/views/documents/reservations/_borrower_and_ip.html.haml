@@ -1,0 +1,10 @@
+%section.parties
+  .customer
+    %label= _("Borrower")
+    %span.name= @user
+    %span.street= @user.address
+    %span.zip_city= "%s %s" % [@user.zip, @user.city]
+  .inventory_pool
+    %label= _("Lender")
+    %span.name= current_inventory_pool.name
+  .clear

@@ -1,0 +1,101 @@
+fragment rentalProps on Rental {
+  id
+  purpose
+  title
+  contactDetails
+  isCustomerOrder
+  state: rentalState
+  fulfillmentStates: refinedRentalState
+  fromDate
+  untilDate
+  totalDays
+
+  totalQuantity
+
+  approveFulfillment {
+    fulfilledQuantity
+    toFulfillQuantity
+  }
+
+  rejectedQuantity
+  expiredUnapprovedQuantity
+
+  pickupFulfillment {
+    fulfilledQuantity
+    toFulfillQuantity
+  }
+
+  expiredQuantity
+
+  returnFulfillment {
+    fulfilledQuantity
+    toFulfillQuantity
+  }
+
+  overdueQuantity
+
+  user {
+    id
+  }
+  contracts {
+    ...contractsConnectionProps
+  }
+  reservations(
+    orderBy: [
+      { attribute: CREATED_AT, direction: ASC }
+      { attribute: ID, direction: ASC }
+    ]
+  ) {
+    ...reservationProps
+  }
+
+  createdAt
+  updatedAt
+}
+
+fragment reservationProps on Reservation {
+  id
+  status
+  startDate
+  endDate
+  actualEndDate
+  model {
+    id
+    name
+    images {
+      id
+      imageUrl
+    }
+    coverImage {
+      id
+      imageUrl
+    }
+  }
+  option {
+    id
+    name
+  }
+  quantity
+  inventoryPool {
+    id
+    name
+  }
+  item {
+    inventoryCode
+  }
+}
+
+fragment contractsConnectionProps on ContractsConnection {
+  edges {
+    node {
+      id
+      compactId
+      printUrl
+      createdAt
+      # note
+      # reservations {
+      #   ...reservationProps
+      # }
+    }
+  }
+}

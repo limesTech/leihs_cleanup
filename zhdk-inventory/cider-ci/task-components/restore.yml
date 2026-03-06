@@ -1,0 +1,21 @@
+scripts:
+  restore-dump:
+    start_when:
+      python is pre installed:
+        script_key: 'pre-install-python'
+      working tree is unlocked:
+        script_key: 'unlock'
+    timeout: 45 Minutes
+    body: |
+      #!/usr/bin/env bash
+      set -euo pipefail
+      cd deploy
+      export ANSIBLE_HOST_KEY_CHECKING=False
+      bin/ansible-playbook db-restore-only_play.yml \
+        -e 'remote_pgbin_restore_path=/leihs/var/db-backups/latest.pgbin' \
+        -i ../zhdk-inventory/${DEPLOY_TARGET_INVENTORY}
+
+  deploy:
+    timeout: 5 hours
+    start_when:
+      data-restored: { script_key: restore-dump, states: [passed] }

@@ -1,0 +1,281 @@
+(ns leihs.inventory.server.resources.pool.models.model.main
+  (:require
+   [clojure.set]
+   [honey.sql :refer [format] :rename {format sql-format}]
+   [honey.sql.helpers :as sql]
+   [leihs.inventory.server.middlewares.debug :refer [log-by-severity]]
+   [leihs.inventory.server.middlewares.exception-handler :refer [exception-handler]]
+   [leihs.inventory.server.resources.pool.common :refer [fetch-attachments
+                                                         is-deletable?
+                                                         select-entries]]
+   [leihs.inventory.server.resources.pool.models.basic-coercion :as co]
+   [leihs.inventory.server.resources.pool.models.common :refer [fetch-thumbnails-for-ids
+                                                                filter-and-coerce-by-spec
+                                                                filter-map-by-spec
+                                                                model->enrich-with-image-attr
+                                                                remove-nil-values]]
+   [leihs.inventory.server.resources.pool.models.model.common-model-form :refer [extract-model-form-data
+                                                                                 filter-response
+                                                                                 process-accessories
+                                                                                 process-categories
+                                                                                 process-compatibles
+                                                                                 process-entitlements
+                                                                                 process-properties]]
+   [leihs.inventory.server.utils.transform :refer [to-uuid]]
+   [next.jdbc :as jdbc]
+   [ring.util.response :refer [bad-request not-found response status]]))
+
+(def DELETE_MODEL_ERROR "Failed to delete model")
+(def FETCH_MODEL_ERROR "Failed to fetch model")
+(def UPDATE_MODEL_ERROR "Failed to update model")
+
+(defn is-model-deletable? [tx model-id]
+  (is-deletable? tx :models model-id))
+
+(defn fetch-image-attributes [tx model-id pool-id]
+  (let [query (-> (sql/select
+                   :i.id
+                   :i.filename
+                   :i.content_type
+                   [[:case
+                     [:= :m.cover_image_id :i.id] true
+                     :else false]
+                    :is_cover])
+                  (sql/from [:models :m])
+                  (sql/right-join [:images :i] [:= :i.target_id :m.id])
+                  (sql/where [:and [:= :m.id model-id] [:= :i.thumbnail false]])
+                  sql-format)
+        images (jdbc/execute! tx query)
+        images-with-urls (mapv (fn [{:keys [id] :as row}]
+                                 (assoc row
+                                        :content_type (:content_type row)
+                                        :url (str "/inventory/" pool-id "/models/" model-id "/images/" id)))
+                               images)
+        filtered-images (filter-and-coerce-by-spec images-with-urls ::co/image)]
+    filtered-images))
+
+(defn fetch-accessories [tx model-id]
+  (let [query (-> (sql/select :a.id :a.name)
+                  (sql/from [:accessories :a])
+                  (sql/left-join [:accessories_inventory_pools :aip] [:= :a.id :aip.accessory_id])
+                  (sql/where [:= :a.model_id model-id])
+                  (sql/order-by :a.name)
+                  sql-format)
+        accessories (jdbc/execute! tx query)]
+    (mapv #(filter-map-by-spec % ::co/accessory) accessories)))
+
+(defn fetch-compatibles [tx model-id pool-id]
+  (let [query (-> (sql/select :mm.id
+                              :mm.product
+                              :mm.version
+                              :mm.name
+                              ["models" :origin_table]
+                              :mm.cover_image_id)
+                  (sql/from [:models_compatibles :mc])
+                  (sql/left-join [:models :mm] [:= :mc.compatible_id :mm.id])
+                  (sql/where [:= :mc.model_id model-id])
+                  sql-format)
+        models (jdbc/execute! tx query)
+        models (->> models
+                    (fetch-thumbnails-for-ids tx)
+                    (map (model->enrich-with-image-attr pool-id)))
+        models (mapv #(filter-map-by-spec % ::co/compatible) models)]
+    models))
+
+(defn fetch-properties [tx model-id]
+  (let [properties (select-entries tx :properties [:id :key :value] [:= :model_id model-id])]
+    (filter-and-coerce-by-spec properties ::co/property)))
+
+(defn fetch-entitlements [tx model-id]
+  (let [query (-> (sql/select :e.id :e.quantity :eg.name [:eg.id :group_id])
+                  (sql/from [:entitlements :e])
+                  (sql/join [:entitlement_groups :eg] [:= :e.entitlement_group_id :eg.id])
+                  (sql/where [:= :e.model_id model-id])
+                  sql-format)
+        entitlements (jdbc/execute! tx query)]
+    (filter-and-coerce-by-spec entitlements :json/entitlement)))
+
+(defn fetch-rentable [tx pool-id model-id]
+  (let [query (-> (sql/select [[[:count :items.id]] :rentable])
+                  (sql/from :items)
+                  (sql/where [:and
+                              [:= :items.inventory_pool_id pool-id]
+                              [:= :items.model_id model-id]
+                              [:= :items.is_borrowable true]
+                              [:is :items.retired nil]
+                              [:is :items.parent_id nil]])
+                  sql-format)]
+    (or (:rentable (jdbc/execute-one! tx query)) 0)))
+
+(defn fetch-categories [tx model-id]
+  (let [query (-> (sql/select :mg.id :mg.type :mg.name)
+                  (sql/from [:model_groups :mg])
+                  (sql/left-join [:model_links :ml] [:= :mg.id :ml.model_group_id])
+                  (sql/where [:ilike :mg.type "Category"])
+                  (sql/where [:= :ml.model_id model-id])
+                  (sql/order-by :mg.name)
+                  sql-format)
+        categories (jdbc/execute! tx query)]
+    (filter-and-coerce-by-spec categories ::co/category)))
+
+(defn get-resource [request]
+  (try
+    (let [tx (get-in request [:tx])
+          model-id (to-uuid (get-in request [:path-params :model_id]))
+          pool-id (to-uuid (get-in request [:path-params :pool_id]))
+          model-query (-> (sql/select :m.id :m.product :m.manufacturer :m.version :m.type
+                                      :m.hand_over_note :m.description :m.internal_description
+                                      :m.technical_detail :m.is_package)
+                          (sql/from [:models :m])
+                          (sql/where [:= :m.id model-id])
+                          sql-format)
+          model-result (jdbc/execute-one! tx model-query)
+          attachments (fetch-attachments tx model-id pool-id)
+          image-attributes (fetch-image-attributes tx model-id pool-id)
+          accessories (fetch-accessories tx model-id)
+          compatibles (fetch-compatibles tx model-id pool-id)
+          properties (fetch-properties tx model-id)
+          entitlements (fetch-entitlements tx model-id)
+          categories (fetch-categories tx model-id)
+          rentable (fetch-rentable tx pool-id model-id)
+          result (if model-result
+                   (-> (assoc model-result
+                              :is_deletable (is-model-deletable? tx model-id)
+                              :rentable rentable
+                              :attachments attachments
+                              :accessories accessories
+                              :compatibles compatibles
+                              :properties properties
+                              :images image-attributes
+                              :entitlements entitlements
+                              :categories categories)
+                       remove-nil-values)
+                   nil)]
+      (if result
+        (response result)
+        (status
+         (response {:status "failure" :message "No entry found"}) 404)))
+    (catch Exception e
+      (log-by-severity FETCH_MODEL_ERROR e)
+      (exception-handler request FETCH_MODEL_ERROR e))))
+
+; ##################################
+
+(defn update-model-handler [request]
+  (let [model-id (to-uuid (get-in request [:path-params :model_id]))
+        pool-id (to-uuid (get-in request [:path-params :pool_id]))
+        tx (:tx request)
+        {:keys [prepared-model-data categories compatibles properties accessories entitlements]}
+        (extract-model-form-data request)]
+    (try
+      (let [update-model-query (-> (sql/update :models)
+                                   (sql/set prepared-model-data)
+                                   (sql/where [:= :id model-id])
+                                   (sql/returning :*)
+                                   sql-format)
+            updated-model (-> (jdbc/execute-one! tx update-model-query)
+                              (filter-response [:rental_price]))
+            updated-model (filter-map-by-spec updated-model :create-model/scheme)]
+        (process-entitlements tx entitlements model-id)
+        (process-properties tx properties model-id)
+        (process-accessories tx accessories model-id pool-id)
+        (process-compatibles tx compatibles model-id)
+        (process-categories tx categories model-id pool-id)
+
+        (if updated-model
+          (response updated-model)
+          (bad-request {:message UPDATE_MODEL_ERROR})))
+      (catch Exception e
+        (log-by-severity UPDATE_MODEL_ERROR e)
+        (bad-request {:message UPDATE_MODEL_ERROR :details (.getMessage e)})))))
+
+(defn put-resource [request]
+  (update-model-handler request))
+
+; ##################################
+
+(defn db-operation
+  "Executes a SELECT or DELETE operation on the given table based on the operation keyword using next.jdbc and HoneySQL."
+  [tx operation table where-clause]
+  (let [query (case operation
+                :select
+                (-> (sql/select :*)
+                    (sql/from (keyword table))
+                    (sql/where where-clause)
+                    sql-format)
+                :delete (-> (sql/delete-from table)
+                            (sql/where where-clause)
+                            (sql/returning :*)
+                            sql-format)
+                (throw (IllegalArgumentException. "Unsupported operation")))]
+    (jdbc/execute! tx query)))
+
+(defn filter-keys
+  "Filters the keys of each map in the vector, keeping only the specified keys."
+  [vec-of-maps keys-to-keep]
+  (mapv #(select-keys % keys-to-keep) vec-of-maps))
+
+(defn delete-resource [request]
+  (try
+    (let [model-id (to-uuid (get-in request [:path-params :model_id]))
+          tx (:tx request)
+          models (db-operation tx :select :models [:= :id model-id])]
+
+      (if (empty? models)
+        (throw (ex-info "Model not found" {:status 404}))
+
+        (let [is-model-deletable? (is-model-deletable? tx model-id)
+              attachments (db-operation tx :select :attachments [:= :model_id model-id])
+              images (db-operation tx :select :images [:= :target_id model-id])]
+
+          (if is-model-deletable?
+            (let [deleted-model-compatible
+                  (jdbc/execute! tx (-> (sql/delete-from :models_compatibles)
+                                        (sql/where [:= :model_id model-id])
+                                        (sql/returning :compatible_id)
+                                        sql-format))
+
+                  deleted-model
+                  (jdbc/execute! tx (-> (sql/delete-from :models)
+                                        (sql/where [:= :id model-id])
+                                        (sql/returning :*)
+                                        sql-format))
+
+                  _ (db-operation tx :delete :images [:= :target_id model-id])
+
+                  remaining-attachments (db-operation tx :select :attachments [:= :model_id model-id])
+                  remaining-images (db-operation tx :select :images [:= :target_id model-id])
+                  result {:deleted_attachments (remove-nil-values (filter-keys attachments [:id :model_id :filename :size]))
+                          :deleted_images (remove-nil-values (filter-keys images [:id :target_id :filename :size :thumbnail]))
+                          :deleted_model (remove-nil-values (filter-keys deleted-model [:id :product :manufacturer]))
+                          :deleted_model_compatibles deleted-model-compatible}]
+
+              (if (or (seq remaining-attachments) (seq remaining-images))
+                (throw (ex-info "Referenced attachments or images still exist" {:status 409}))
+                (if (= 1 (count deleted-model))
+                  (response result)
+                  (throw (ex-info "Failed to delete model" {:status 409})))))
+
+            (throw (ex-info "Referenced items exist" {:status 409}))))))
+
+    (catch Exception e
+      (log-by-severity DELETE_MODEL_ERROR e)
+      (exception-handler request DELETE_MODEL_ERROR e))))
+
+; ##################################
+
+(defn patch-resource [req]
+  (let [model-id (to-uuid (get-in req [:path-params :model_id]))
+        tx (:tx req)
+        is-cover (-> req :body-params :is_cover)
+        image (jdbc/execute-one! tx (-> (sql/select :*)
+                                        (sql/from :images)
+                                        (sql/where [:= :id (to-uuid is-cover)])
+                                        sql-format))]
+    (if (nil? image)
+      (not-found {:message "Failed to patch model"})
+      (response (jdbc/execute-one! tx (-> (sql/update :models)
+                                          (sql/set {:cover_image_id (to-uuid is-cover)})
+                                          (sql/where [:= :id model-id])
+                                          (sql/returning :id :cover_image_id)
+                                          sql-format))))))

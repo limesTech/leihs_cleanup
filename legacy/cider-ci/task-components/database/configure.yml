@@ -1,0 +1,18 @@
+scripts:
+  legacy-configure-rails-db:
+    start_when:
+      database has been configured:
+        script_key: database-configure-rails-db
+      legacy-ruby has been bundled:
+        script_key: legacy-bundle-rspec-ruby
+    body: |
+      #!/usr/bin/env bash
+      set -euo pipefail
+      cd $LEIHS_LEGACY_DIR
+      cp $LEIHS_DATABASE_DIR/config/database.yml config/database.yml
+
+  test:
+    start_when:
+      rails db is configured:
+        script_key: legacy-configure-rails-db
+        states: [passed]

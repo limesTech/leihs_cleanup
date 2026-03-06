@@ -1,0 +1,29 @@
+- name: disable all leihs sites
+  shell: rm -rf /etc/apache2/sites-enabled/leihs*
+
+- name: maintenance page directory
+  file:
+    path: /etc/apache2/leihs-maintenance
+    state: directory
+    mode: 0755
+
+- name: maintenance page directory
+  file:
+    path: /var/www/leihs-maintenance
+    state: directory
+    mode: 0755
+
+- name: maintenance page HTML
+  template:
+    src: maintenance-page.html
+    dest: /var/www/leihs-maintenance/503.html
+    mode: 0644
+
+- include_tasks: virtual-host.yml
+  with_indexed_items: "{{leihs_virtual_hosts}}"
+
+
+- name: restart reverse-proxy
+  service:
+    name: apache2
+    state: restarted

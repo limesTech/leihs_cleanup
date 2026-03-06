@@ -1,0 +1,17 @@
+#!/bin/bash -eu
+
+# config:
+WEBPACK_ASSETS_DIR="packs"
+
+# - . - #
+DIR="$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)"
+
+echo "-------------------------------------"
+echo "   check sprockets-compiled assets   "
+echo "-------------------------------------"
+"${DIR}/check-precompiled-assets-sprockets" "$1" "$2"
+
+echo "-------------------------------------"
+echo "    check webpack-compiled assets    "
+echo "-------------------------------------"
+"${DIR}/check-precompiled-assets-webpack" "$1/${WEBPACK_ASSETS_DIR}" "$2/${WEBPACK_ASSETS_DIR}"

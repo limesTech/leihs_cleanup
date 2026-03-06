@@ -1,0 +1,21 @@
+!!! 5
+%html{:lang => I18n.locale}
+
+  %head
+    %title= strip_tags("leihs | #{_("Equipment Booking and Inventory Management System")}")
+    = stylesheet_link_tag "manage", :media => "all"
+    = render :partial => "layouts/head"
+    = render partial: "layouts/custom_head_tag"
+
+  %body
+
+    .main-wrapper
+
+      - if flash.present?
+        = render :partial => "application/flash", :locals => {:flash => flash}
+
+      %header= render :partial => "application/topbar"
+
+      = yield
+
+    = render :partial => "application/footer"

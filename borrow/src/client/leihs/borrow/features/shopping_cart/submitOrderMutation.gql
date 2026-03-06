@@ -1,0 +1,24 @@
+mutation submitOrder(
+  $purpose: NonEmptyText!,
+  $title: NonEmptyText!,
+  $contactDetails: String,
+  $lendingTermsAccepted: Boolean,
+  $userId: UUID
+) {
+   submitOrder(
+    purpose: $purpose,
+    title: $title,
+    contactDetails: $contactDetails,
+    lendingTermsAccepted: $lendingTermsAccepted,
+    userId: $userId
+  ) {
+    id
+    title
+    purpose
+    fromDate
+    untilDate
+    totalDays
+    state: rentalState
+    totalQuantity
+  }
+}

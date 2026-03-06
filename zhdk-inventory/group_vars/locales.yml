@@ -1,0 +1,8 @@
+active_locales:
+  de-CH: true
+  en-GB: true
+  es: true
+  gsw-CH: true
+  en-US: false
+
+default_locale: "de-CH"

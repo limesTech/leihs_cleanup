@@ -1,0 +1,17 @@
+- hosts: leihs_server
+  gather_facts: False
+  pre_tasks:
+    - name: cleanup ansible remote tmp dir
+      raw: "rm -rf ~/.ansible/tmp"
+
+- import_playbook: stop_play.yml
+
+- hosts: leihs_server
+  roles:
+
+    - role: defaults
+      tags: [always]
+
+    - role: db-restore
+
+

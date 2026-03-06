@@ -1,0 +1,19 @@
+traits:
+  asdf: true
+
+scripts:
+
+  database-bundle-rspec-ruby:
+    exclusive_executor_resource: asdf-ruby
+    timeout: 20 Minutes
+    body: |
+      #!/usr/bin/env bash
+      set -euo pipefail
+      cd $LEIHS_DATABASE_DIR
+      ./bin/env/ruby-setup
+
+  test:
+    start_when:
+      gems are bundled:
+        script_key: database-bundle-rspec-ruby
+        states: [passed]

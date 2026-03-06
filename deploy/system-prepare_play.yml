@@ -1,0 +1,40 @@
+- hosts: all
+  gather_facts: False
+  pre_tasks:
+    - name: install system python
+      raw: |
+        #!/usr/bin/env bash
+        set -euo pipefail
+        apt -y update
+        apt install -y python3 python-is-python3
+
+
+- hosts: [leihs_server]
+
+  roles:
+
+    - role: defaults
+      tags: [always]
+
+    - role: os-check
+      tags: [os-check]
+
+    - role: os-setup
+      tags: [os-setup]
+
+    - role: openjdk
+      tags: [openjdk]
+
+    - role: postgresql
+      tags: [postgresql]
+
+    - role: install
+      tags: [install]
+
+    - role: reverse-proxy-pre-setup
+      tags: [reverse-proxy, reverse-proxy-pre-setup]
+
+    - role: reverse-proxy-maintenance-page
+      tags: [reverse-proxy, reverse-proxy-maintenance-page]
+
+

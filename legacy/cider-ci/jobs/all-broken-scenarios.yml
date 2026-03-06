@@ -1,0 +1,21 @@
+jobs:
+
+  all-broken-scenarios:
+
+    name: 'All Broken Scenarios'
+
+    description: |
+      Run all broken scenarios
+
+    context:
+
+      task_defaults:
+        load: 1.5
+        max_trials: 24
+        eager_trials: 3
+        include:
+          - cider-ci/task-components/database.yml
+
+      include:
+        - cider-ci/shared/main-context.yml
+        - cider-ci/tasks/all-broken-scenarios.yml

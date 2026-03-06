@@ -1,0 +1,30 @@
+.padding-top-m.padding-left-m.padding-bottom-m
+
+  .multibutton{:disabled => :disabled, :"data-selection-multibutton" => true}
+    %button.button.green{:disabled => :disabled, :"data-selection-enabled" => true, :"data-hand-over-selection" => true, :autocomplete => :off}
+      = _("Hand Over Selection")
+      %span#line-selection-counter.badge.dark 0
+    .dropdown-holder.inline-block
+      .button.green.dropdown-toggle
+        .arrow.down
+      %ul.dropdown.right
+        %li
+          %a.dropdown-item{:"data-edit-lines" => "selected-lines"}
+            %i.fa.fa-calendar
+            = _("Edit Selection")
+        %li
+          %a#swap-user.dropdown-item
+            %i.fa.fa-exchange
+            = _("Change Borrower")
+        %li
+          %a#edit-reservation-purpose.dropdown-item{:disabled => true}
+            %i.fa.fa-comment.fa-flip-horizontal.lightgrey
+            = _("Edit Purpose")
+        %li
+          = render partial: 'manage/templates/print_selection', locals: {type: "value_list"}
+        %li
+          = render partial: 'manage/templates/print_selection', locals: {type: "picking_list"}
+        %li
+          %a.dropdown-item.red{:"data-destroy-selected-lines" => true}
+            %i.fa.fa-trash
+            = _("Delete Selection")

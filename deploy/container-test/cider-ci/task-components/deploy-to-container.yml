@@ -1,0 +1,47 @@
+traits:
+  python3: true
+
+scripts:
+  prepare-container:
+    start_when:
+      container has been created:
+        script_key: create-container
+    timeout: 15 Minutes
+    body: |
+      #!/usr/bin/env bash
+      set -eux
+      git repack -a
+      git submodule foreach --recursive 'git repack -a'
+      # the next command will not work if we invoke it too quickly after
+      # booting the machine
+      sleep 30
+      CONTAINER_IP=$(incus list --format=json ${CONTAINER_NAME} | jq -r ".[].state.network.eth0.addresses | .[0].address")
+      until ping -c1 -W1 ${CONTAINER_IP}; do sleep 3; done
+
+      # cleanup in case base image already has leihs code
+      incus exec $CONTAINER_NAME -- rm -rf /tmp/leihs /leihs
+
+      incus exec ${CONTAINER_NAME} -- bash - < ${CIDER_CI_WORKING_DIR}/deploy/container-test/bin/install-dependencies
+
+      incus exec ${CONTAINER_NAME} -- \
+        /bin/sh -c "mkdir -p /root/.ssh && echo '$(cat ~/.ssh/id_rsa.pub)' >> /root/.ssh/authorized_keys"
+
+  deploy-to-container:
+    timeout: 1 hour
+    start_when:
+      container has been prepared:
+        script_key: prepare-container
+    body: |
+      #!/usr/bin/env bash
+      set -eux
+
+      CONTAINER_IP=$(incus list --format=json ${CONTAINER_NAME} | jq -r ".[].state.network.eth0.addresses | .[0].address")
+
+      cd deploy
+      bin/ansible-playbook \
+        -v \
+        -i container-test/inventory/hosts \
+        -e "ansible_ssh_host=${CONTAINER_IP}" \
+        -e "force_rebuild=${FORCE_REBUILD:-}" \
+        -e="${EXTRA_ANSIBLE_VARS_JSON:-}" \
+            deploy_play.yml

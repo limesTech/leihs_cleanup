@@ -1,0 +1,5 @@
+restrict_access_via_basic_auth: true
+restrict_access_via_basic_auth_passwords:
+  ZHdK-Leihs-Team: "{{zhdk_leihs_team_basic_auth_password}}"
+  Leihs: "{{zhdk_leihs_team_basic_auth_password}}"
+

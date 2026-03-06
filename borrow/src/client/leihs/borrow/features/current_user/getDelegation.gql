@@ -1,0 +1,17 @@
+query getDelegation($id: UUID!) {
+  delegation(id: $id) {
+    id
+    name
+    inventoryPools(orderBy: [{ attribute: NAME, direction: ASC }]) {
+      id
+      name
+      maximumReservationDuration
+      hasReservableItems
+    }
+    suspensions {
+      inventoryPool {
+        id
+      }
+    }
+  }
+}

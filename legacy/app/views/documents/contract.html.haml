@@ -1,0 +1,94 @@
+-# NOTE: there can be 0-n customer_orders per contract, which we need to find via contract.orders
+- contact_details = begin; @contract.orders.compact.map(&:customer_order_id).uniq.map {|id| CustomerOrder.find(id)}.map(&:contact_details).compact; rescue; []; end
+
+- content_for :title, "#{_("Lending Contract No.")} #{@contract.compact_id}"
+
+.contract
+
+  .barcode
+    %img{src: barcode_for_contract(@contract)}
+
+  %h1
+    = _("Lending Contract No.")
+    = @contract.compact_id
+    = _("from %s") % l(@contract.created_at.to_date)
+    %span.weeknumber W#{@contract.created_at.strftime("%W")}
+  .date
+    = l Time.now.to_date
+
+  %section.parties
+    = render "documents/customer"
+    = render "documents/inventory_pool"
+    .clear
+
+  - if (contact_details.any? or app_settings.include_customer_email_in_contracts)
+    %section.customer-contact{style: 'margin-bottom: 0.5cm; margin-top: -0.5cm;'}
+      %label{style: 'font-weight: bold'}= _("contract_contact_details_heading")
+
+      - if app_settings.include_customer_email_in_contracts
+        - contact_person = ( @delegated_user or @user )
+        - email_addresses = [contact_person.email.presence, contact_person.secondary_email.presence].compact
+        - if email_addresses.any?
+          .customer-email
+            %span.email{style: 'display: block'}
+              = _("E-Mail") + ': '
+              = email_addresses.join(' / ')
+
+      - if contact_details.any?
+        .contact-details
+          %span.email{style: 'display: block'}= contact_details.join(' / ')
+
+      .clear
+
+  - not_returned_lines, returned_lines = @contract.reservations.partition {|line| line.returned_date.blank? }
+
+  - unless returned_lines.empty?
+    %section.list.returned_items
+      %h2= _("Returned Items")
+      %table
+        %thead
+          %tr
+            %td.quantity= _("Quantity")
+            %td.inventory_code= _("Inventory code")
+            %td.model_name= _("Model")
+            %td.end_date= _("End date")
+            %td.returning_date= _("Return")
+        %tbody
+          = render partial: 'documents/contract_lines', locals: {lines: returned_lines}
+
+  - unless not_returned_lines.empty?
+    %section.list.not_returned_items
+      %h2= _("Borrowed Items")
+      %table
+        %thead
+          %tr
+            %td.quantity= _("Quantity")
+            %td.inventory_code= _("Inventory code")
+            %td.model_name= _("Model")
+            %td.end_date= _("End date")
+            %td.returning_date= _("Return")
+        %tbody
+          = render partial: 'documents/contract_lines', locals: {lines: not_returned_lines}
+
+  %section.total-value
+    %p
+      %strong= _("Total price (indicative value)")
+    %p
+      = number_to_currency(@contract.total_price, format: '%n %u', :unit => app_settings.local_currency_string)
+
+  %section.dontbreak
+    %section.purposes
+      %h2= _("Purpose these items are borrowed for")
+      %p= simple_format @contract.purpose
+    %section.note
+      - if @contract.note
+        %h2= _("Additional notes")
+        %p= simple_format @contract.note
+    %section.terms_and_signature
+      %p.terms= _("Terms and conditions of the lender apply.")
+      %hr
+      %span= _("Signature")
+
+    - if @contract.handed_over_by_user
+      %section
+        %p= _("You were served by %s") % @contract.handed_over_by_user.name

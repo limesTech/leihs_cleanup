@@ -1,0 +1,68 @@
+- name: Delete {{tmp_script_path}} directory if it exists
+  file:
+    path: "{{tmp_script_path}}"
+    state: absent
+
+- name: Create {{tmp_script_path}} directory
+  file:
+    path: "{{tmp_script_path}}"
+    state: directory
+
+- copy:
+    src: "{{role_path}}/shared"
+    dest: "{{tmp_script_path}}"
+  name: copy shared script files
+
+- copy:
+    src: "{{csv_dir_path}}"
+    dest: "{{tmp_script_path}}"
+  when: csv_dir_path is defined
+  name: copy csv files
+
+- copy:
+    src: "{{script_file_path}}"
+    dest: "{{tmp_script_path}}/script.rb"
+  name: copy script file
+
+- file:
+    path: "{{logfile_path}}"
+    state: touch
+    owner: "{{leihs_legacy_user}}"
+  name: create log file
+
+- shell: |
+    #!/bin/bash
+    set -eux
+    source ~/.asdf/current/asdf.sh
+
+    cd {{leihs_legacy_dir}}
+
+    export RAILS_ENV=production
+    export CSV_DIR_PATH=/tmp/leihs-script/{{ csv_dir_path | default('csv') | basename }}
+    export SECRET_KEY_BASE={{leihs_master_secret}}
+
+    bundle install > /dev/null
+    bundle exec rails runner /tmp/leihs-script/script.rb 
+
+  args:
+    executable: /bin/bash
+  become: yes
+  become_user: "{{leihs_legacy_user}}"
+  register: result
+  name: run rails script
+
+- debug:
+    var: result.stdout_lines
+  name: debug result.stdout_lines
+
+- copy:
+    content: "{{ result.stdout }}"
+    dest: "{{logfile_path}}"
+  name: write result.stdout to log file
+
+- fetch:
+    src: "{{logfile_path}}"
+    dest: "{{playbook_dir}}/tmp/log/{{inventory_hostname}}/{{logfile_name}}"
+    fail_on_missing: yes
+    flat: yes
+  name: fetch log file

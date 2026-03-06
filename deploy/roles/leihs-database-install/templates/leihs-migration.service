@@ -1,0 +1,32 @@
+[Unit]
+Description=Leihs Migration Service
+After=syslog.target
+
+BindsTo=postgresql@{{postgres_version}}-main.service
+After=postgresql@{{postgres_version}}-main.service
+PartOf=postgresql@{{postgres_version}}-main.service
+
+StartLimitIntervalSec=180
+StartLimitBurst=6
+
+
+[Service]
+SyslogIdentifier=leihs-migration
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory={{leihs_database_dir}}
+User={{leihs_database_user}}
+Group={{leihs_database_user}}
+
+Environment=PATH={{leihs_database_ruby_dir}}/bin:/usr/local/bin:/usr/bin:/bin
+Environment=RAILS_LOG_LEVEL=WARN
+Environment=RAILS_ENV=production
+Environment=SECRET_KEY_BASE={{leihs_master_secret}}
+ExecStart={{leihs_database_ruby_dir}}/bin/ruby -S bundle exec rake db:migrate
+
+
+[Install]
+WantedBy=multi-user.target
+WantedBy=postgresql@{{postgres_version}}-main.service
+
+# vi: ft=sh

@@ -1,0 +1,49 @@
+{
+  "dependencies": {
+    "@babel/preset-react": "^7.28.5",
+    "@eins78/react-autocomplete": "1.7.3-fork.1",
+    "@rails/webpacker": "^5.0.0",
+    "babel-preset-react": "^6.24.1",
+    "classnames": "^2.2.5",
+    "coffeescript": "1.12.7",
+    "create-react-class": "^15.6.2",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
+    "eslint-plugin-react": "^7.37.5",
+    "lodash": ">=4.17.23",
+    "prettier": "^3.7.4",
+    "prettier-eslint": "^16.4.2",
+    "prop-types": "^15.6.0",
+    "react": "^16.0.0",
+    "react_ujs": "^2.4.1",
+    "react-autocomplete": "^1.7.2",
+    "react-bootstrap": "^0.32.0",
+    "react-dom": "^16.0.0",
+    "webpack": "^4.47.0",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.3",
+    "webpack-merge": "^4.1.1",
+    "yarn": "^1.22.13"
+  },
+  "overrides": {
+    "tar": "^7.5.9",
+    "minimatch": "^9.0.6"
+  },
+  "scripts": {
+    "start": "./bin/webpack-dev-server",
+    "lint": "eslint app/javascript/",
+    "format": "prettier --write app/javascript/{*,**/*}.js"
+  },
+  "prettier": {
+    "printWidth": 100,
+    "singleQuote": true,
+    "semi": false,
+    "trailingComma": "none",
+    "bracketSpacing": true,
+    "bracketSameLine": true
+  },
+  "devDependencies": {
+    "globals": "^17.0.0"
+  }
+}

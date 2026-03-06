@@ -1,0 +1,27 @@
+name: LEIHS/leihs/procure
+windows:
+  2:
+    name: server-dev
+    command: |
+      ./bin/dev-run-backend
+  3:
+    name: front-dev
+    command: |
+      ./bin/dev-run-frontend
+  5:
+    name: psql
+    command: |
+      psql -d leihs
+  6:
+    name: db
+    command: |
+      cd server/database
+  7:
+    name: test
+    command: |
+      export RAILS_ENV=test
+  8:
+    name: shared-clj
+    command: |
+      cd server/shared-clj
+

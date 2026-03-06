@@ -1,0 +1,31 @@
+#!/bin/bash -exu
+
+# usage: source ./scripts/set-env.sh && some-command
+
+PROJECT_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" ; cd .. > /dev/null 2>&1 && pwd -P)"
+
+# read in local env file
+if ! . ${PROJECT_DIR}/.env.local; then
+  echo 'could not source env file! try `cp .env.local-example .env.local`'
+  return 1 # not exit, because we are being sourced and dont want to close the parent shell!
+fi
+
+# export all the vars
+export DB_NAME
+export DB_USER
+export DB_PORT
+export DB_HOST
+export LEGACY_HTTP_PORT
+
+export LEIHS_HTTP_PORT
+export LEIHS_LEGACY_PORT
+export LEIHS_HOST_PORT_POSTGRES
+export LEIHS_MAIL_SMTP_PORT
+export LEIHS_MAIL_POP3_PORT
+export LEIHS_SECRET
+
+export RAILS_ENV
+
+# and for compatibility with rails:
+export DATABASE_URL="postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}"
+

@@ -1,0 +1,21 @@
+leihs_external_hostname: test.leihs.zhdk.ch
+ansible_host: zhdk-leihs-test.ruby.zhdk.ch
+
+reverse_proxy_custom_config: |
+  ProxyPass /authenticators/ms-open-id/zhdkaad http://localhost:3434/authenticators/ms-open-id/zhdkaad nocanon retry=0
+  ProxyPass /zhdk-agw     http://localhost:3333/zhdk-agw	  nocanon retry=0
+
+leihs_send_mails: Yes
+
+zhdkaad_client_id: b6d7c311-51bf-4acc-b676-ad33c41c1612
+
+db_backup_on_deploy: No
+db_backup_nightly_enabled: No
+
+agw_auth_external_base_url: https://test.leihs.zhdk.ch
+agw_auth_port: 3333
+agw_auth_private_key: '{{auth_system_master_private_key}}'
+agw_auth_public_key: '{{auth_system_master_public_key}}'
+agw_auth_leihs_public_key: '{{auth_system_master_public_key}}'
+agw_app_id: '{{zhdk_test_agw_app_id}}'
+agw_app_secret: '{{zhdk_test_agw_app_secret}}'

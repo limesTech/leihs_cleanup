@@ -1,0 +1,28 @@
+jobs:
+
+  manage-flapping-scenarios:
+
+    name: 'Manage: Flapping Scenarios'
+
+    description: |
+      Run Manage flapping scenarios
+
+    depends_on:
+      include:
+        - cider-ci/job-components/manage-scenarios-passed.yml
+
+    run_when:
+      include:
+        - cider-ci/job-components/manage-scenarios-passed.yml
+
+    context:
+
+      task_defaults:
+        load: 1.5
+        max_trials: 10
+        eager_trials: 2
+
+      include:
+        - cider-ci/shared/main-context.yml
+        - cider-ci/shared/flapping-context-configuration.yml
+        - cider-ci/tasks/manage-flapping-scenarios.yml

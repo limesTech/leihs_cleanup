@@ -1,0 +1,35 @@
+query getAvailability(
+  $modelId: UUID!
+  $startDate: Date
+  $endDate: Date
+  $userId: UUID
+  $poolIds: [UUID!]
+  $excludeReservationIds: [UUID!]
+) {
+  model(userId: $userId, id: $modelId) {
+    availability(
+      startDate: $startDate
+      endDate: $endDate
+      inventoryPoolIds: $poolIds
+      excludeReservationIds: $excludeReservationIds
+    ) {
+      inventoryPool {
+        id
+        name
+        maximumReservationDuration
+        reservationAdvanceDays
+        holidays {
+          startDate
+          endDate
+          name
+        }
+      }
+      dates {
+        date
+        quantity
+        startDateRestrictions
+        endDateRestrictions
+      }
+    }
+  }
+}

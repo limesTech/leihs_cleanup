@@ -1,0 +1,39 @@
+- content_for :title, _("Search Results for %s") % @search_term
+- content_for :search_section, "focus-thin"
+
+#search-overview.wrapper.margin-top-m
+
+  = render :partial => 'manage/tabs/search', :locals => {:active_tab => :search_overview}
+
+  .row.content-wrapper.min-height-xl.min-width-full.straight-top
+
+    .margin-top-l.padding-horizontal-m
+      .row
+        %h1.headline-xl= _("Search Results for \"%s\"") % @search_term
+
+    .margin-top-l.padding-bottom-m.row
+
+      #users= render :partial => "manage/search/result_preview", :locals => {names: [_("Users")], :link => manage_search_users_path(current_inventory_pool, {:search_term => @search_term})}
+
+      #delegations= render :partial => "manage/search/result_preview", :locals => {names: [_("Delegations")], :link => manage_search_users_path(current_inventory_pool, {:search_term => @search_term})}
+
+      #contracts= render :partial => "manage/search/result_preview", :locals => {names: [_("Contracts")], :link => manage_search_contracts_path(current_inventory_pool, {:search_term => @search_term})}
+
+      #orders= render :partial => "manage/search/result_preview", :locals => {names: [_("Orders")], :link => manage_search_orders_path(current_inventory_pool, {:search_term => @search_term})}
+
+      #models= render :partial => "manage/search/result_preview", :locals => {names: [_("Models")], :link => manage_search_models_path(current_inventory_pool, {:search_term => @search_term, :type => :model})}
+
+      #items= render :partial => "manage/search/result_preview", :locals => {names: [_("Items")], :link => manage_search_items_path(current_inventory_pool, {:search_term => @search_term, :type => :item})}
+
+      #options= render :partial => "manage/search/result_preview", :locals => {names: [_("Options")], :link => manage_search_options_path(current_inventory_pool, {:search_term => @search_term})}
+
+      #software= render :partial => "manage/search/result_preview", :locals => {names: [_("Software")], :link => manage_search_software_path(current_inventory_pool, {:search_term => @search_term, :type => :software})}
+
+      #licenses= render :partial => "manage/search/result_preview", :locals => {names: [_("Licenses")], :link => manage_search_licenses_path(current_inventory_pool, {:search_term => @search_term, :type => :license})}
+
+:coffeescript
+  
+  jQuery ->
+    new App.SearchOverviewController
+      el: $("#search-overview")
+      searchTerm: #{@search_term.to_json}

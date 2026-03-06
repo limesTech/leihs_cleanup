@@ -1,0 +1,60 @@
+jobs:
+
+  good-to-merge:
+
+    name: '⚑ Good To Merge'
+
+    description: |
+      This job depends on all other tests and checks
+      and it will pass if and only if all dependencies have passed.
+      It also include *git* meta checks (only relevant for pushing to master).
+      Status of this job is **used by github's "branch protection"**!
+
+    depends_on: &GOOD_TO_MERGE_DEPS
+      all tests passed:
+        type: job
+        job_key: all-tests
+        states: [passed]
+      database merged to master:
+        job_key: merged-to-master
+        type: job
+        submodule: [database]
+        states: [passed]
+
+    run_when: *GOOD_TO_MERGE_DEPS
+
+    context:
+      task_defaults:
+        max_trials: 1
+      tasks:
+        git-branch-current:
+          name: "Git tree contains latest commit from origin/master"
+          scripts:
+            main:
+              body: |
+                #!/usr/bin/env bash
+                set -exu
+                git fetch --all
+                #
+                # check if your tree still contains the current commit from master
+                git rev-list --children HEAD | grep -q "$(git rev-parse origin/master)"
+        include:
+          - path: cider-ci/context-components/merged-submodules-check.yml
+
+  merged-to-master:
+    name: "Merged to master"
+    priority: 999
+    depends_on:
+      master branch matches:
+        type: branch
+        include_match: ^master$
+    run_when:
+      master branch matches:
+        type: branch
+        include_match: ^master$
+    context:
+      tasks:
+        merged-to-master:
+          scripts:
+            test:
+              body: "exit 0"

@@ -1,0 +1,8 @@
+git-submodules-merged:
+  name: "Git submodules are all merged to origin/master"
+  # name: "Git submodules are all merged to origin/master"
+  scripts:
+    test:
+      timeout: 15 minutes
+      body:
+        read_and_replace_with: cider-ci/bin/check-git-submodules-are-merged

@@ -1,0 +1,14 @@
+- hosts: leihs_server
+
+  roles:
+
+  - role: defaults
+    tags: [always]
+
+  - role: reverse-proxy-maintenance-page
+    tags: [reverse-proxy-maintenance-page]
+
+  - role: stop-services
+    tags: [stop-services]
+
+

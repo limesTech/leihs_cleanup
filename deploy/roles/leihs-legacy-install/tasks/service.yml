@@ -1,0 +1,42 @@
+- name: register ruby version
+  shell: |
+    set -eu
+    source ~/.asdf/current/asdf.sh
+    cd {{leihs_legacy_dir}}
+    asdf current ruby | awk '{print $2}'
+  args:
+    chdir: "{{leihs_legacy_dir}}"
+    executable: /bin/bash
+  become: yes
+  become_user: "{{leihs_legacy_user}}"
+  become_method: sudo
+  register: leihs_legacy_ruby_version
+
+- name: template puma config
+  template:
+    owner: "{{leihs_legacy_user}}"
+    src: puma.rb
+    dest: '{{leihs_legacy_dir}}/config/puma.rb'
+    mode: 0644
+
+- template:
+    src: leihs-legacy.service
+    dest: /etc/systemd/system/leihs-legacy.service
+    mode: 0644
+  name: copy  leihs-legacy.service
+
+- template:
+    src: leihs-legacy-cron.service
+    dest: /etc/systemd/system/leihs-legacy-cron.service
+    mode: 0644
+  name: install leihs-legacy-cron.service
+
+- template:
+    src: leihs-legacy-cron.timer
+    dest: /etc/systemd/system/leihs-legacy-cron.timer
+    mode: 0644
+  name: install leihs-legacy-cron.timer
+
+- command: systemctl daemon-reload
+  changed_when: false
+  name: reload systemctl

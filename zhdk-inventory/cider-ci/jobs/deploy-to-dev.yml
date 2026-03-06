@@ -1,0 +1,134 @@
+jobs:
+
+
+  ### Jan ######################################################################
+
+  jan-restore-deploy:
+    name: Restore prod data and deploy to jan-leihs.ruby.zhdk.ch
+    include: cider-ci/job-components/deploy.yml
+    context:
+      task_defaults:
+        exclusive_global_resources: { jan-leihs.ruby.zhdk.ch: true }
+        environment_variables:
+          DEPLOY_TARGET_INVENTORY: "hosts.yml --limit jan"
+        include: cider-ci/task-components/restore.yml
+
+  jan-deploy:
+    name: Deploy to jan-leihs.ruby.zhdk.ch
+    include: cider-ci/job-components/deploy.yml
+    context:
+      task_defaults:
+        exclusive_global_resources: { jan-leihs.ruby.zhdk.ch: true }
+        environment_variables:
+          DEPLOY_TARGET_INVENTORY: "hosts.yml --limit jan"
+    run_when:
+      'on jan/dev':
+        type: branch
+        include_match: '^jan\/dev'
+
+
+  ### Manuel ####################################################################
+
+  manuel-restore-deploy:
+    name: Restore prod data and deploy to manuel-leihs.ruby.zhdk.ch
+    include: cider-ci/job-components/deploy.yml
+    context:
+      task_defaults:
+        exclusive_global_resources: { manuel-leihs.ruby.zhdk.ch: true }
+        environment_variables:
+          DEPLOY_TARGET_INVENTORY: "hosts.yml --limit manuel"
+        include: cider-ci/task-components/restore.yml
+
+  manuel-deploy:
+    name: Deploy to manuel-leihs.ruby.zhdk.ch
+    include: cider-ci/job-components/deploy.yml
+    context:
+      task_defaults:
+        exclusive_global_resources: { manuel-leihs.ruby.zhdk.ch: true }
+        environment_variables:
+          DEPLOY_TARGET_INVENTORY: "hosts.yml --limit manuel"
+    run_when:
+      'on manuel/dev':
+        type: branch
+        include_match: '^manuel\/dev'
+
+
+
+  ### nimaai ####################################################################
+
+  nimaai-restore-deploy:
+    name: Restore prod data and deploy to nimaai-leihs.ruby.zhdk.ch
+    include:  cider-ci/job-components/deploy.yml
+    context:
+      task_defaults:
+        exclusive_global_resources: { nimaai-leihs.ruby.zhdk.ch: true }
+        environment_variables:
+          DEPLOY_TARGET_INVENTORY: "hosts.yml --limit nimaai"
+        include: cider-ci/task-components/restore.yml
+
+
+  nimaai-deploy:
+    name: Deploy to nimaai-leihs.ruby.zhdk.ch
+    include: cider-ci/job-components/deploy.yml
+    context:
+      task_defaults:
+        exclusive_global_resources: { nimaai-leihs.ruby.zhdk.ch: true }
+        environment_variables:
+          DEPLOY_TARGET_INVENTORY: "hosts.yml --limit nimaai"
+    run_when:
+      'on nimaai/dev':
+        type: branch
+        include_match: '^nimaai\/dev'
+
+
+
+  ### Tom ######################################################################
+
+  tom-restore-deploy:
+    name: Restore prod data and deploy to tom-leihs.ruby.zhdk.ch
+    include: cider-ci/job-components/deploy.yml
+    context:
+      task_defaults:
+        exclusive_global_resources: { tom-leihs.ruby.zhdk.ch: true }
+        environment_variables:
+          DEPLOY_TARGET_INVENTORY: "hosts.yml --limit tom"
+        include: cider-ci/task-components/restore.yml
+
+  tom-deploy:
+    name: Deploy to tom-leihs.ruby.zhdk.ch
+    include: cider-ci/job-components/deploy.yml
+    context:
+      task_defaults:
+        exclusive_global_resources: { tom-leihs.ruby.zhdk.ch: true }
+        environment_variables:
+          DEPLOY_TARGET_INVENTORY: "hosts.yml --limit tom"
+    run_when:
+      'on tom/dev':
+        type: branch
+        include_match: '^tom\/dev'
+
+  ### UVB ######################################################################
+
+  uvb-restore-deploy:
+    name: Restore prod data and deploy to uvb-leihs.ruby.zhdk.ch
+    include: cider-ci/job-components/deploy.yml
+    context:
+      task_defaults:
+        exclusive_global_resources: { uvb-leihs.ruby.zhdk.ch: true }
+        environment_variables:
+          DEPLOY_TARGET_INVENTORY: "hosts.yml --limit uvb"
+        include: cider-ci/task-components/restore.yml
+
+  uvb-deploy:
+    name: Deploy to uvb-leihs.ruby.zhdk.ch
+    include: cider-ci/job-components/deploy.yml
+    context:
+      task_defaults:
+        exclusive_global_resources: { uvb-leihs.ruby.zhdk.ch: true }
+        environment_variables:
+          DEPLOY_TARGET_INVENTORY: "hosts.yml --limit uvb"
+    run_when:
+      'on uvb/dev':
+        type: branch
+        include_match: '^uvb\/dev'
+

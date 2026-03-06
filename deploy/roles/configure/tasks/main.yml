@@ -1,0 +1,27 @@
+- file:
+    path: /leihs/config
+    state: directory
+    recurse: true
+    owner: root
+
+- include_tasks: master_secret.yml
+
+- file:
+    path: /etc/leihs
+    state: directory
+    recurse: true
+    mode: 0755
+    owner: root
+
+- name: set env config
+  template:
+    src: config.env
+    dest: /etc/leihs/config.env
+    mode: 0600
+    owner: root
+
+- include_tasks: database.yml
+
+- command: systemctl daemon-reload
+  changed_when: false
+  name: reload systemctl

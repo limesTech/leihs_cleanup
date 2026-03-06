@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -euo pipefail
+set -x 
+PROJECT_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" ; cd .. > /dev/null 2>&1 && pwd -P)"
+cd $PROJECT_DIR
+./bin/env/ruby-setup
+
+LEIHS_MAIL_SMTP_PORT=${LEIHS_MAIL_SMTP_PORT:-32025}
+LEIHS_MAIL_POP3_PORT=${LEIHS_MAIL_POP3_PORT:-32110}
+
+echo "smtp port: $LEIHS_MAIL_SMTP_PORT"
+echo "pop3 port: $LEIHS_MAIL_POP3_PORT"
+
+LOG_DIR=tmp/log
+LOG_FILE=$LOG_DIR/fake_smtp.log
+
+mkdir -p $LOG_DIR
+touch $LOG_FILE
+echo '' > $LOG_FILE
+
+bundle exec post_office \
+  -v \
+  -l $LOG_FILE \
+  -s $LEIHS_MAIL_SMTP_PORT \
+  -p $LEIHS_MAIL_POP3_PORT

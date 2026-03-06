@@ -1,0 +1,19 @@
+mutation createReservationForModel(
+  $modelId: UUID!
+  $endDate: Date!
+  $startDate: Date!
+  $quantity: Int!
+  $userId: UUID
+  $poolIds: [UUID!]
+) {
+  createReservation(
+    modelId: $modelId
+    endDate: $endDate
+    startDate: $startDate
+    quantity: $quantity
+    userId: $userId
+    inventoryPoolIds: $poolIds
+  ) {
+    id
+  }
+}

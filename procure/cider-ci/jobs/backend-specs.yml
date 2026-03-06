@@ -1,0 +1,40 @@
+name: 'Backend: Run specs'
+
+context:
+  generate_tasks:
+    # include_match: server/spec/authorization_spec.rb
+    include_match: server/spec/.*_spec.rb
+  task_defaults:
+    include:
+      - cider-ci/task-components/env-vars.yml
+      - path: cider-ci/task-components/database.yml
+        submodule: [server/database]
+      - cider-ci/task-components/uberjar.yml
+      - cider-ci/task-components/server-bundle-ruby.yml
+      - cider-ci/task-components/service.yml
+
+    traits:
+      asdf: true
+
+    ports:
+      LEIHS_PROCURE_HTTP_PORT:
+        min: 3200
+        max: 3299
+    git_options:
+      submodules:
+        include_match: ^.*$
+    scripts:
+      test:
+        start_when:
+          procure service is running:
+            script_key: procure-service-is-running
+          server ruby is bundled:
+            script_key: procure-server-ruby-bundle
+        body: |
+          #!/usr/bin/env bash
+          set -euo pipefail
+          cd ${LEIHS_PROCURE_SERVER_DIR}
+          mkdir -p log
+          unset PGPORT; unset PGUSER
+          PGPORT=${PG15PORT} PGUSER=${PG15USER} \
+            ./bin/rspec --backtrace ../$CIDER_CI_TASK_FILE

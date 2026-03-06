@@ -1,0 +1,67 @@
+traits:
+  Ruby: true
+  PostgreSQL 15: true
+
+include:
+  - cider-ci/task-components/bundle-rspec-ruby.yml
+
+scripts:
+
+  show-db-env:
+    body: |
+      #!/usr/bin/env bash
+      unset PGPORT unset PGUSER
+      export PGUSER="${PG15USER}"; export PGPORT="${PG15PORT}"
+      env | egrep '(^PG|^LEIHS_|^DATABASE_)' | sort
+
+  database-configure-rails-db:
+    start_when:
+      gems are bundled:
+        script_key: database-bundle-rspec-ruby
+        states: [passed]
+      showed-env:
+        script_key: show-db-env
+        states: [passed]
+    body: |
+      #!/usr/bin/env bash
+      set -euo pipefail
+      cd $LEIHS_DATABASE_DIR
+      unset PGPORT unset PGUSER
+      export PGUSER="${PG15USER}"; export PGPORT="${PG15PORT}"
+      export SECRET_KEY_BASE_DUMMY=1
+      ./bin/ruby cider-ci/scripts/configure-database.rb
+
+  create-database:
+    start_when:
+      db-configured:
+        script_key: database-configure-rails-db
+        states: [passed]
+    body: |
+      #!/usr/bin/env bash
+      set -euo pipefail
+      cd $LEIHS_DATABASE_DIR
+      unset PGPORT unset PGUSER
+      export PGUSER="${PG15USER}"; export PGPORT="${PG15PORT}"
+      export SECRET_KEY_BASE_DUMMY=1
+      bundle exec rake db:reset
+
+  delete-database:
+    body: |
+      #!/usr/bin/env bash
+      set -euo pipefail
+      unset PGPORT unset PGUSER
+      export PGUSER="${PG15USER}"; export PGPORT="${PG15PORT}"
+      export SECRET_KEY_BASE_DUMMY=1
+      dropdb "$LEIHS_DATABASE_NAME"
+    start_when:
+      test is in terminal state:
+        script_key: test
+        states: [aborted, defective, passed, failed, skipped]
+      create-database is terminal:
+        script_key: create-database
+        states: [aborted, defective, passed, failed, skipped]
+
+  test:
+    start_when:
+      database has been created:
+        script_key: create-database

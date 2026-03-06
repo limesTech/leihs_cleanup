@@ -1,0 +1,55 @@
+query getModelShow(
+  $modelId: UUID!
+  $userId: UUID
+) {
+  model(
+    userId: $userId
+    id: $modelId
+  ) {
+    id
+    name
+    manufacturer
+    description
+    isFavorited
+    images {
+      id
+      imageUrl
+    }
+    coverImage {
+      id
+      imageUrl
+    }
+    attachments {
+      id
+      filename
+      attachmentUrl
+      size
+      # content_type # FIXME: include this field when API bug is fixed
+    }
+    properties {
+      id
+      key
+      value
+    }
+    recommends(first: 12) {
+      edges {
+        node {
+          id
+          name
+          manufacturer
+          isFavorited
+          images {
+            id
+            imageUrl
+          }
+        }
+      }
+    }
+    totalReservableQuantities {
+      inventoryPool {
+        id
+      }
+      quantity
+    }
+  }
+}

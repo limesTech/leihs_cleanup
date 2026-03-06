@@ -1,0 +1,10 @@
+query templatesIndex($userId: UUID) {
+  templates(userId: $userId) {
+    id
+    name
+    inventoryPool {
+      id
+      name
+    }
+  }
+}

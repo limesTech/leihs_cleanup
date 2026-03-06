@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+ln -sf .env.local-test .env.local
+
+./scripts/tmux/kill-all
+
+tmux send -t leihs-borrow:2.1 "source ./bin/set-env && ./bin/dev-run-backend" C-m
+tmux send -t leihs-borrow:3.1 "tail -f log/debug.log" C-m
+tmux send -t leihs-borrow:6.1 "bundle exec ruby spec/mock/legacy-mock-server.rb -p 3210" C-m

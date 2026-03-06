@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+INVENTORY_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" ; cd .. > /dev/null 2>&1 && pwd -P)"
+HOSTS_FILE=${INVENTORY_DIR}/hosts.yml
+LEIHS_DIR=${INVENTORY_DIR}/..
+LEIHS_DEPLOY_DIR=${LEIHS_DIR}/deploy
+
+cd $INVENTORY_DIR
+
+./bin/transcrypt --flush-credentials || true
+
+./bin/unlock
+
+cd $LEIHS_DIR
+
+${LEIHS_DEPLOY_DIR}/bin/ansible-playbook \
+  -i ${HOSTS_FILE} -l $HOST \
+  ${LEIHS_DEPLOY_DIR}/db-restore_play.yml "$@"
+
+cd $INVENTORY_DIR
+
+./bin/transcrypt --flush-credentials
+
+# vi: ft=sh

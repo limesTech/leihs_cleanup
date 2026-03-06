@@ -1,0 +1,38 @@
+[Unit]
+Description=Leihs Legacy Service
+After=syslog.target
+
+BindsTo=leihs-migration.service
+After=leihs-migration.service
+PartOf=leihs-migration.service
+
+StartLimitIntervalSec=180
+StartLimitBurst=6
+
+
+[Service]
+SyslogIdentifier=leihs-legacy
+WorkingDirectory=/leihs/legacy
+User={{leihs_legacy_user}}
+Group={{leihs_legacy_user}}
+
+Restart=on-failure
+Restart=always
+RestartSec=5
+
+Environment=LEIHS_SECRET={{leihs_master_secret}}
+Environment=SECRET_KEY_BASE={{leihs_master_secret}}
+Environment=PATH={{leihs_legacy_ruby_dir}}/bin:/usr/local/bin:/usr/bin:/bin
+Environment=RAILS_LOG_LEVEL=WARN
+Environment=RAILS_ENV=production
+Environment=RAILS_SERVE_STATIC_FILES=Yes
+
+ExecStart={{leihs_legacy_ruby_dir}}/bin/ruby -S \
+    bundle exec puma \
+    -C config/puma.rb
+
+[Install]
+WantedBy=multi-user.target
+WantedBy=leihs-migration.service
+
+# vi: ft=sh

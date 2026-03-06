@@ -1,0 +1,5 @@
+query customerOrderShow($id: UUID!, $userId: UUID) {
+  rental(id: $id, userId: $userId) {
+    ...rentalProps
+  }
+}

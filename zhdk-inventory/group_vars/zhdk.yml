@@ -1,0 +1,14 @@
+api_basic_auth_enabled: false
+
+reverse_proxy_use_x_forwarded_for: true
+
+remote_pgbin_restore_path: /leihs/var/db-backups/latest.pgbin
+
+publish_inventory: True
+
+leihs_virtual_hosts:
+- hostname: '{{leihs_external_hostname}}'
+  ip: '*'
+  ssl_certificate_file: '/etc/ssl/localcerts/{{ansible_host}}.crt'
+  ssl_certificate_key_file: '/etc/ssl/localcerts/{{ansible_host}}.key'
+  force_redirect_to_https: yes

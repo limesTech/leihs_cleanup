@@ -1,0 +1,30 @@
+.row
+
+  %nav
+    %ul
+
+      - if lending_manager?
+        %li
+          %a.navigation-tab-item.margin-right-xxs.padding-horizontal-m.float-left{:href => manage_daily_view_path(current_inventory_pool),
+          :class => (defined? active_tab and active_tab == :daily_view) ? "active" : ""}
+            = _("Daily View")
+
+      - if group_manager?
+        %li
+          %a.navigation-tab-item.margin-right-xxs.padding-horizontal-m.float-left{:href => manage_orders_path(current_inventory_pool, state: [:approved, :submitted, :rejected]),
+          :class => (defined? active_tab and active_tab == :orders) ? "active" : ""}
+            = _("Orders")
+
+      - if lending_manager?
+        %li
+          %a.navigation-tab-item.margin-right-xxs.padding-horizontal-m.float-left{:href => manage_inventory_pool_visits_path(current_inventory_pool),
+          :class => (defined? active_tab and active_tab == :visits) ? "active" : ""}
+            = _("Visits")
+
+      - if group_manager?
+        %li
+          %a.navigation-tab-item.margin-right-xxs.padding-horizontal-m.float-left{:href => manage_contracts_path(current_inventory_pool, status: [:open, :closed]),
+          :class => (defined? active_tab and active_tab == :contracts) ? "active" : ""}
+            = _("Contracts")
+
+  -#= render :partial => "manage/tabs/current_inventory_pool", :locals => {:current_inventory_pool => current_inventory_pool}

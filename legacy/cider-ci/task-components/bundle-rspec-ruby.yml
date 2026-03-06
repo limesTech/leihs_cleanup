@@ -1,0 +1,20 @@
+traits:
+  asdf: true
+  Bash: true
+
+scripts:
+
+  legacy-bundle-rspec-ruby:
+    exclusive_executor_resource: asdf-ruby
+    timeout: 20 Minutes
+    body: |
+      #!/usr/bin/env bash
+      set -euo pipefail
+      cd $LEIHS_LEGACY_DIR
+      ./bin/env/ruby-setup
+
+  test:
+    start_when:
+      gems are bundled:
+        script_key: legacy-bundle-rspec-ruby
+        states: [passed]

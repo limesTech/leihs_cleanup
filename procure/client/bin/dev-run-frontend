@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+PROJECT_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" ; cd ../.. > /dev/null 2>&1 && pwd -P)"
+CLIENT_DIR=$PROJECT_DIR/client
+
+echo "running frontend setup steps (node env, npm ci; npm build)..."
+echo "hint: run 'npm run start' directly to avoid the setup steps"
+
+${PROJECT_DIR}/bin/env/nodejs-setup
+
+cd $CLIENT_DIR
+npm ci --ignore-scripts
+npm run build
+
+echo "✔ OK, frontend setup steps done"
+
+npm run start
+
+# vi: ft=sh

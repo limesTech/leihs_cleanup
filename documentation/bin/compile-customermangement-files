@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+cd sources
+
+for f in $(ls customer-management/*md); do
+
+  echo "sources/$f -> ${f%.md}.pdf"
+  pandoc -o "../${f%.md}.pdf" "$f"
+
+done

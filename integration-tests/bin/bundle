@@ -1,0 +1,5 @@
+#!/bin/sh
+
+rbenv install --skip-existing
+gem install bundler --no-document
+bundle install

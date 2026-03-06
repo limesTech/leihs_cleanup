@@ -1,0 +1,24 @@
+!!! 5
+%html{:lang => I18n.locale}
+
+  %head
+    %title= strip_tags("#{current_inventory_pool ? "#{current_inventory_pool.shortname || current_inventory_pool.name} | " : ""}#{yield(:title)}#{(yield :title).blank? ? "":" | "}leihs")
+    = render :partial => "layouts/head"
+    = stylesheet_link_tag "manage", :media => "all"
+    = javascript_include_tag "manage"
+    = render :partial => "manage/global_javascript_injection"
+    = render partial: "layouts/custom_head_tag"
+
+  %body
+
+    .main-wrapper
+
+      .padding-bottom-l
+
+        = render :partial => "flash", :locals => {:flash => flash}
+
+        %header= render :partial => "manage/topbar"
+
+        .row= yield
+
+    = render :partial => "footer"

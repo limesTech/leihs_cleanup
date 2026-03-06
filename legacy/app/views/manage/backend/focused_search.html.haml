@@ -1,0 +1,27 @@
+-content_for :title, _("%s Search Results for \"%s\"") % [params[:types].first.capitalize ,params[:term]]
+
+#search_results.focused.innercontent
+
+  .top
+    %h1= yield :title
+    %p.subtitle= _("Found %s") % pluralize(@hits.values.sum, params[:types].first)
+    
+  %section.focused
+    .list
+    
+  - unless @json.blank?
+    .pagination_container
+    
+:coffeescript
+  jQuery ->
+    results = #{@json}
+    if results?
+      for result in results 
+        $('.list').append $.tmpl("tmpl/line", result)
+
+    ListPagination.current_page = #{params[:page].blank? ? 0 : params[:page]}
+    ListPagination.per_page = #{PER_PAGE}
+    ListPagination.total_entries = #{@hits.values.sum}
+    ListPagination.next_text = "#{_('Next')}"
+    ListPagination.previous_text = "#{_('Previous')}"
+    ListPagination.setup()

@@ -1,0 +1,18 @@
+leihs_external_hostname: staging.leihs.zhdk.ch
+ansible_host: zhdk-leihs-staging.ruby.zhdk.ch
+
+reverse_proxy_custom_config: |
+  ProxyPass /authenticators/ms-open-id/zhdkaad http://localhost:3434/authenticators/ms-open-id/zhdkaad nocanon retry=0
+  ProxyPass /zhdk-agw     http://localhost:3333/zhdk-agw	  nocanon retry=0
+
+leihs_send_mails: Yes
+
+zhdkaad_client_id: b26f2d22-1709-4b12-98b8-6802314f3dc1
+
+agw_auth_external_base_url: https://staging.leihs.zhdk.ch
+agw_auth_port: 3333
+agw_auth_private_key: '{{auth_system_master_private_key}}'
+agw_auth_public_key: '{{auth_system_master_public_key}}'
+agw_auth_leihs_public_key: '{{auth_system_master_public_key}}'
+agw_app_id: '{{zhdk_staging_agw_app_id}}'
+agw_app_secret: '{{zhdk_staging_agw_app_secret}}'

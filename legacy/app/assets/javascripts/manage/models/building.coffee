@@ -1,0 +1,1 @@
+window.App.Building.url = => "/manage/#{App.InventoryPool.current.id}/buildings"

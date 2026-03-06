@@ -1,0 +1,28 @@
+%form#assign-or-add.row{:autocomplete => :off}
+
+  .col2of8
+    .padding-right-xs
+      %label.row.margin-bottom-xxs{:for => "add-start-date"}= _("Start date")
+      .row
+        %input.has-addon{:autocomplete => :off, :id => "add-start-date", :name => "start-date", :type => :text, :value => l([@start_date, Date.today].max)}
+        %label.addon{:for => "add-start-date"}
+          %i.fa.fa-calendar
+
+  .col2of8
+    .padding-right-xs
+      %label.row.margin-bottom-xxs{:for => "add-end-date"}= _("End date")
+      .row
+        %input.has-addone{:autocomplete => :off, :id => "add-end-date", :name => "end-date", :type => :text, :value => l([@end_date, Date.today].max)}
+        %label.addon{:for => "add-end-date"}
+          %i.fa.fa-calendar
+
+  .col4of8
+    %label.row.margin-bottom-xxs{:for => "assign-or-add-input"}= _("Add/Assign")
+    .row
+      #assign-or-add-input
+        -# NOTE: input will be inserted here (React!) and replace the input below: It is only rendered in HAML to avoid flickering!
+        %input.row.has-addone{:autocomplete => :off, :type => :text, :placeholder => "#{_("Inventory code, model name, search term")}"}
+
+      %input{type: :hidden, data: {note: 'Only for styling the next input…'}}
+      %button.addon{:type => :submit, :title => _("Add"), :style => "height: 30px;"}
+        %i.fa.fa-plus

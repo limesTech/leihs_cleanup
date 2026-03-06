@@ -1,0 +1,35 @@
+- name: remove possibly exisiting archive
+  delegate_to: localhost
+  run_once: true
+  file:
+    path: "{{playbook_dir}}/tmp/database.tar.gz"
+    state: absent
+
+- name: create archive
+  delegate_to: localhost
+  run_once: true
+  shell: |
+    #!/usr/bin/env bash
+    set -euo pipefail
+    git -C "{{playbook_dir}}/../database" archive HEAD \
+      --format tar.gz -o "{{playbook_dir}}/tmp/database.tar.gz"
+  args:
+    executable: /bin/bash
+
+- file:
+    path: "{{leihs_database_dir}}"
+    state: absent
+  name: remove existing {{leihs_database_dir}}
+
+- file:
+    path: "{{leihs_database_dir}}"
+    state: directory
+    owner: "{{leihs_database_user}}"
+    recurse: yes
+  name: create empty {{leihs_database_dir}}
+
+- unarchive:
+    src: "{{playbook_dir}}/tmp/database.tar.gz"
+    dest: "{{leihs_database_dir}}"
+    owner: "{{leihs_database_user}}"
+  name: extract archive

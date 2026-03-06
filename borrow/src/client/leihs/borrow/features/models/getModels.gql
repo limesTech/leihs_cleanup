@@ -1,0 +1,55 @@
+query getModels(
+  $searchTerm: String
+  $startDate: Date
+  $endDate: Date
+  $first: Int
+  $afterCursor: String
+  $bothDatesGiven: Boolean!
+  $onlyAvailable: Boolean
+  $categoryId: UUID
+  $isFavorited: Boolean
+  $quantity: Int
+  $userId: UUID
+  $poolIds: [UUID!]
+) {
+  models(
+    searchTerm: $searchTerm
+    first: $first
+    after: $afterCursor
+    onlyAvailable: $onlyAvailable
+    quantity: $quantity
+    userId: $userId
+    poolIds: $poolIds
+    categoryId: $categoryId
+    isFavorited: $isFavorited
+  ) {
+    edges {
+      node {
+        ...modelListProps
+      }
+    }
+    pageInfo {
+      endCursor
+      hasNextPage
+    }
+  }
+}
+
+fragment modelListProps on Model {
+  id
+  name
+  description
+  manufacturer
+  isFavorited
+  images {
+    id
+    imageUrl
+    # thumbnails { id size imageUrl }
+  }
+  coverImage {
+    id
+    imageUrl
+  }
+  availableQuantityInDateRange(startDate: $startDate, endDate: $endDate, userId: $userId, inventoryPoolIds: $poolIds)
+    @include(if: $bothDatesGiven)
+}

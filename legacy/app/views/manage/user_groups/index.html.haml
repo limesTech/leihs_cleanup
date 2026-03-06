@@ -1,0 +1,38 @@
+- content_for :title, _("Groups")
+- content_for :manage_section, "active"
+
+.wrapper.margin-top-m
+
+  = render :partial => 'manage/tabs/manage', :locals => {:active_tab => :user_groups}
+
+  .row.content-wrapper.min-height-xl.min-width-full.straight-top
+
+    .margin-top-l.padding-horizontal-m
+
+      .row
+
+        %h1.headline-l.float-left= yield :title
+
+      .row
+
+        - inventory_pool_id = params[:inventory_pool_id]
+
+        %p.margin-top-m
+          = _("Manage user roles via Groups.")
+        %p
+          = _("A Group contains several users. These users can gain a role by assigning the role to their Group.")
+
+        %p
+          - link = "<a href=\"/manage/#{inventory_pool_id}/groups\">%s</a>" % _("Entitlement-Groups")
+          != _("To allocate models to users use the %s.") % link
+
+        .new-admin-banner.notice.paragraph-m.row.emboss.text-align-center.padding-inset-xs.margin-top-m
+          .col1of10
+            %i.fa.fa-wrench.flash-icon
+          .col8of10
+            %strong
+              %a.white.underlined{href: "/admin/inventory-pools/#{inventory_pool_id}/groups/"}
+                = _("legacy_manage_group_new_admin_section_notice")
+          .col1of10
+
+

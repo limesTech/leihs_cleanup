@@ -1,0 +1,721 @@
+# Spanish translation for leihs
+# Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
+# This file is distributed under the same license as the leihs package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: version 0.0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-01-14 13:11+0100\n"
+"PO-Revision-Date: 2018-03-16 11:29+0100\n"
+"Last-Translator: Ramón Cahenzli <ramon.cahenzli@zhdk.ch>\n"
+"Language-Team: Spanish <es@li.org>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-01-27 15:44+0000\n"
+"X-Generator: Poedit 2.0.6\n"
+
+msgid " at the inventory pool "
+msgstr " en el grupo de inventario "
+
+msgid " item(s)"
+msgstr " elemento(s)"
+
+msgid " item(s) due on "
+msgstr " elemento(s) vencidos el "
+
+msgid "%s until %s"
+msgstr "%s hasta %s"
+
+msgid "** This is an automatically generated response **"
+msgstr "**este es un mensaje de respuesta auto-generado**"
+
+msgid "A model for the Inventory Code / Serial Number '%s' was not found"
+msgstr "No se encontró el modelo por el código de inventario %s."
+
+msgid "A model with the ID '%s' was not found"
+msgstr ""
+
+msgid "A package cannot be nested to another package"
+msgstr ""
+
+msgid "A template with the ID '%s' was not found"
+msgstr ""
+
+msgid "Access Level: %d"
+msgstr "Derecho de Acceso: %d"
+
+msgid "Access Right successfully created"
+msgstr "Derechos de Acceso creados correctamente"
+
+msgid "Access Right successfully updated"
+msgstr "Derechos de Acceso actualizados correctamente"
+
+msgid "Added"
+msgstr "Añadido"
+
+msgid "Approved"
+msgstr "Aprobado"
+
+msgid "Are any of the above borrowed items?"
+msgstr ""
+
+msgid "Are any of the above items your personal computer?"
+msgstr ""
+
+msgid "Attachment was successfully created."
+msgstr "El adjunto se creo correctamente."
+
+msgid "Attempt to add node to own graph collection"
+msgstr ""
+
+msgid "Body"
+msgstr ""
+
+msgid "By not returning these items, you are blocking other people's reservations. This is very unfair to the other clients and to the inventory manager, since you are causing a significant amount of trouble and annoyance."
+msgstr "Si no devuelve estos artículos, estará bloqueando las reservas de otras personas. Esto es muy injusto para los demás clientes y administradores de stock ya que estaría provocando un gran número de problemas y molestias."
+
+msgid "CHF"
+msgstr ""
+
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgid "Changed %s from %s to %s"
+msgstr ""
+
+msgid "Changed dates for %{model} from %{from} to %{to}"
+msgstr "Cambiar fechas para %{model} de %{from} a %{to}"
+
+msgid "Closed"
+msgstr "Cerrado"
+
+msgid "Compatible successfully removed"
+msgstr "Compatibilidad quitada correctamente"
+
+msgid "Contract %d has been signed by %s"
+msgstr "El contrato %d fue firmado por %s"
+
+msgid "Contract Nr."
+msgstr "Contrato Nro."
+
+msgid "Couldn't update "
+msgstr ""
+
+msgid "Day"
+msgstr "Día"
+
+msgid "Days"
+msgstr "Días"
+
+msgid "Deadline soon"
+msgstr "El plazo está por vencerse"
+
+msgid "Deadline soon reminder sent for %{q} items on contracts %{c}"
+msgstr "El plazo está por vencerse, se enviaron recordatorios por %{q} elementos en %{c} contratos"
+
+msgid "Dear leihs client,"
+msgstr "Estimado cliente de leihs,"
+
+msgid "Documents"
+msgstr "Documentos"
+
+msgid "Edit purpose for order from"
+msgstr ""
+
+msgid "Editing mail templates for the inventory pool %s"
+msgstr ""
+
+msgid "Editing system-wide mail templates"
+msgstr ""
+
+msgid "Empty Username and/or Password"
+msgstr "Nombre de Usuario ó Contraseña Vacios"
+
+msgid "Error"
+msgstr "Error"
+
+msgid "Error destroying the package"
+msgstr "Error al destruir el paquete"
+
+msgid "Error saving the package"
+msgstr "Error al guardar el paquete"
+
+msgid "Expected to be returned."
+msgstr "Se espera su devolución."
+
+msgid "Format"
+msgstr ""
+
+msgid "has %s more..."
+msgstr ""
+
+msgid "In the interest of all our clients we ask you to observe the return dates."
+msgstr "Por el interés de todos nuestros clientes, le pedimos respete las fechas de devolución."
+
+msgid "Incomplete"
+msgstr "Incompleto"
+
+msgid "Invalid order_lines"
+msgstr ""
+
+msgid "Invalid technical user - contact your leihs admin"
+msgstr ""
+
+msgid "Invalid username/password"
+msgstr "Nombre de Usuario ó Contraseña Inválidos"
+
+msgid "Inventory Pool"
+msgstr "Grupo de Inventario"
+
+msgid "Inventory Pool is missing"
+msgstr "Falta el Grupo de Inventario"
+
+msgid "Item handed over as part of contract %d."
+msgstr "Artículo entregado como parte del contrato %d."
+
+msgid "Item taken back"
+msgstr "Artículo devuelto"
+
+msgid "Kind regards,"
+msgstr "Saludos cordiales,"
+
+msgid "Language"
+msgstr ""
+
+msgid "Latest 10 emails"
+msgstr "Últimos 10 correos electrónicos"
+
+msgid "List of available variables"
+msgstr ""
+
+msgid "Loading"
+msgstr "Cargando"
+
+msgid "Logged in successfully"
+msgstr "Inicio de Sesión exitoso"
+
+msgid "Mail Templates"
+msgstr ""
+
+msgid "Model"
+msgstr "Modelo"
+
+msgid "Model must be selected"
+msgstr "Debe seleccionarse un modelo"
+
+msgid "Model not present anymore"
+msgstr ""
+
+msgid "Model successfully added as compatible"
+msgstr "Modelo agregado correctamente como compatible"
+
+msgid "New item created."
+msgstr "Nuevo elemento creado"
+
+msgid "No description available for this model."
+msgstr ""
+
+msgid "No entries found"
+msgstr ""
+
+msgid "No hand overs found"
+msgstr ""
+
+msgid "None"
+msgstr "Ninguno"
+
+msgid "Number of items"
+msgstr "Número de artículos"
+
+msgid "Order approved"
+msgstr "Orden aprobada"
+
+msgid "Order rejected"
+msgstr "Orden rechazada"
+
+msgid "Order submitted"
+msgstr "Orden presentada"
+
+msgid "Package error"
+msgstr "Error de paquete"
+
+msgid "Package successfully destroyed"
+msgstr "Paquete destruido correctamente"
+
+msgid "Package successfully saved"
+msgstr "Paquete guardado correctamente"
+
+msgid "Password changed"
+msgstr "Contraseña modificada"
+
+msgid "Please note that these contracts, while they do belong to approved orders, may be changed by the lending manager at any time. They represent only a current snapshot of the order and might not contain the same items as the final contract once you pick up your items."
+msgstr ""
+
+msgid "Please provide a purpose..."
+msgstr ""
+
+msgid "Please provide all required fields"
+msgstr ""
+
+msgid "Problems"
+msgstr ""
+
+msgid "Purpose changed '%{from}' for '%{to}'"
+msgstr "Cambio sugerido '%{from}' a '%{to}'"
+
+msgid "Purpose these items are borrowed for"
+msgstr ""
+
+msgid "Quantity"
+msgstr "Cantidad"
+
+msgid "Rejected"
+msgstr "Rechazada"
+
+msgid "Remind"
+msgstr "Recordar"
+
+msgid "Reminded %{q} items for contracts %{c}"
+msgstr "Recordado %{q} veces para el contrato %{c}"
+
+msgid "Reminder"
+msgstr "Recordatorio"
+
+msgid "Reminder emails"
+msgstr ""
+
+msgid "Removed %{q} %{m}"
+msgstr "Remover %{q} %{m}"
+
+msgid "Retire"
+msgstr "Retirar"
+
+msgid "Show all %s..."
+msgstr ""
+
+msgid "Show user"
+msgstr "Mostrar usario"
+
+msgid "Show delegation"
+msgstr "Mostrar delegación"
+
+msgid "Signed"
+msgstr "Firmado"
+
+msgid "Since we did not receive any request for renewal, we consequently demand the return of the items without further delay."
+msgstr "Como no recibimos ningún pedido de renovación, le pedimos que devuelva los elementos ahora."
+
+msgid "Start Date must be before End Date"
+msgstr "La fecha de inicio debe ser anterior a la Fecha de finalización"
+
+msgid "Status"
+msgstr "Estado"
+
+msgid "Submission failed"
+msgstr "Falló el pedido"
+
+msgid "Submitted"
+msgstr "Presentada"
+
+msgid "Swapped %{from} for %{to}"
+msgstr "Intercambio %{from} por %{to}"
+
+msgid "Terms and conditions of the lender apply."
+msgstr ""
+
+msgid "That means that the user probably did not get the approval mail and you need to contact him/her in a different way."
+msgstr ""
+
+msgid "The Category must be empty"
+msgstr "Esta Categoría debe estar vacía"
+
+msgid "The Inventory Code %s was not found."
+msgstr "No se encontró el código de inventario %s."
+
+msgid "The Inventory Pool must be empty"
+msgstr "El Inventario debe estar vacío"
+
+msgid "The accessory was successfully created."
+msgstr "El adjunto se creo correctamente."
+
+msgid "The admin role cannot be scoped to an inventory pool"
+msgstr "El rol de administrador no puede estar asignado a un grupo de inventario"
+
+msgid "The assignment for %s was removed"
+msgstr ""
+
+msgid "The following error happened while sending a notification email to %{email}:\\n"
+msgstr ""
+
+msgid "The item belongs to a package"
+msgstr ""
+
+msgid "The item doesn't belong to the inventory pool related to this contract"
+msgstr "El artículo no pertenece al grupo de inventario relacionado con este contrato"
+
+msgid "The item doesn't match with the reserved model"
+msgstr "El artículo no coincide con el modelo reservado"
+
+msgid "The model cannot be changed because the item is used in contracts already."
+msgstr ""
+
+msgid "The model is already compatible"
+msgstr "Este modelo ya es compatible"
+
+msgid "The new user details could not be saved."
+msgstr ""
+
+msgid "The option could not be added"
+msgstr ""
+
+msgid "The option doesn't belong to the inventory pool related to this contract"
+msgstr "Esta opción no corresponde al grupo de inventario relacionado a este contrato"
+
+msgid "The order now looks like this:"
+msgstr "El nuevo pedido es así:"
+
+msgid "The parent item doesn't exist (parent_id: %d)"
+msgstr ""
+
+msgid "The properties have been updated."
+msgstr "Las propiedades fueron actualizadas."
+
+msgid "The selected model is not a package"
+msgstr ""
+
+msgid "The user does not have an email address"
+msgstr ""
+
+msgid "The user who placed this order has received a similar e-mail message informing them that the order first needs to be approved before it is valid."
+msgstr ""
+
+msgid "These are the comments of the inventory manager:"
+msgstr "Estos son los comentarios del administrador de inventario:"
+
+msgid "This contract is not signable because it doesn't have any contract reservations."
+msgstr ""
+
+msgid "This contract is not signable because none of the reservations have a purpose."
+msgstr ""
+
+msgid "This contract is not signable because some reservations are not assigned."
+msgstr ""
+
+msgid "Entitlement-Groups of this customer"
+msgstr ""
+
+msgid "This item will be given to a different inventory pool and not show up in yours anymore!"
+msgstr ""
+
+msgid "This order is not approvable because doesn't have any models."
+msgstr "Esta orden no puede aprobarse aun"
+
+msgid "This order is not approvable because some reserved models are not available."
+msgstr ""
+
+msgid "This order is not approvable because the inventory pool is closed on either the start or enddate."
+msgstr ""
+
+msgid "This order is still pending. Please log in to your leihs system and either approve or reject it."
+msgstr ""
+
+msgid "Time window"
+msgstr "Período de Tiempo"
+
+msgid "Today"
+msgstr "Hoy"
+
+msgid "Total price (indicative value)"
+msgstr "Precio total (valor indicativo)"
+
+msgid "Too many users found"
+msgstr ""
+
+msgid "Unfortunately your order is still pending, but you will soon receive a confirmation of order by separate e-mail. You can view the status of your order through your leihs account."
+msgstr "Desafortunadamente su pedido aun esta pendiente, pero pronto recibirá una confirmación de su pedido. Puede ver el estado de su pedido a través de su cuenta de leihs."
+
+msgid "Upload error."
+msgstr "Error de subida"
+
+msgid "User"
+msgstr "Usuario"
+
+msgid "User details were updated successfully."
+msgstr ""
+
+msgid "User must be selected"
+msgstr "Debe seleccionarse un usuario"
+
+msgid "User or Order not found"
+msgstr ""
+
+msgid "User swapped %{from} for %{to}"
+msgstr "El Usuario intercambio %{from} por %{to}"
+
+msgid "Value"
+msgstr "Valor"
+
+msgid "Value List for Lending Contract No. %s"
+msgstr ""
+
+msgid "Warning"
+msgstr ""
+
+msgid "We are just sending you this little reminder because someone else is already waiting for some of these items."
+msgstr "Solo le enviamos este pequeño recordatorio porque alguien mas encargó esos artículos."
+
+msgid "We kindly ask you to contact us as soon as possible. Your computer might need an update."
+msgstr ""
+
+msgid "Write a comment. The comment will be part of the rejection e-mail."
+msgstr ""
+
+msgid "Write a comment... your comment will be part of the confirmation e-mail"
+msgstr ""
+
+msgid "Write a note... the note will be part of the contract"
+msgstr ""
+
+msgid "You can't add a package to a package."
+msgstr ""
+
+msgid "You cannot delete all reservations of an order. Perhaps you want to reject it instead?"
+msgstr ""
+
+msgid "You don't have any rights to access this application."
+msgstr "No tiene permisos para acceder a esta aplicación"
+
+msgid "You have been logged out."
+msgstr "Su sesión ha sido cerrada."
+
+msgid "You were served by %s"
+msgstr ""
+
+msgid "Your order for the following items has been confirmed by the inventory manager"
+msgstr "Su pedido de los siguientes artículos fue confirmado por el administrador del inventario"
+
+msgid "Your order for the following items listed below was successfully submitted."
+msgstr "Su pedido se los siguientes elementos fue aceptada correctamente."
+
+msgid "Your order was rejected for the following reason:"
+msgstr "Su pedido fue cancelado por los siguientes motivos:"
+
+msgid "[Model %s] "
+msgstr "[Modelo %s] "
+
+msgid "[leihs] Order received"
+msgstr "[leihs] Orden recibida"
+
+msgid "[leihs] Reminder"
+msgstr "[leihs] Recordatorio"
+
+msgid "[leihs] Reservation Confirmation"
+msgstr "[leihs] Reserva Confirmada"
+
+msgid "[leihs] Reservation Rejected"
+msgstr "[leihs] Reserva Rechazada"
+
+msgid "[leihs] Reservation Submitted"
+msgstr "[leihs] Reserva Presentada"
+
+msgid "[leihs] Some items should be returned tomorrow"
+msgstr "[leihs] Algunos elementos deberían de ser devueltos mañana"
+
+msgid "already in Category"
+msgstr "ya se encuentra en la Categoría"
+
+msgid "could not be assigned for take back"
+msgstr ""
+
+msgid "doesn't match parent's attribute"
+msgstr ""
+
+msgid "for max."
+msgstr ""
+
+msgid "inventory pool is closed on end_date. "
+msgstr "El grupo de inventario está cerrado en end_date. "
+
+msgid "inventory pool is closed on start_date. "
+msgstr "El grupo de inventario está cerrado en start_date. "
+
+msgid "item not assigned. "
+msgstr "artículo no asignado. "
+
+msgid "jump to this date"
+msgstr ""
+
+msgid "lends"
+msgstr ""
+
+msgid "not available. "
+msgstr "no disponible. "
+
+msgid "not valid. "
+msgstr "no válido. "
+
+msgid "please wait"
+msgstr ""
+
+msgid "quantity increased by %s"
+msgstr ""
+
+msgid "quantity not available. "
+msgstr "cantidad no disponible. "
+
+msgid "reset user"
+msgstr ""
+
+msgid "since"
+msgstr ""
+
+msgid "since max."
+msgstr ""
+
+msgid "therefore you may not be able to change some of these fields"
+msgstr ""
+
+msgid "to substitute"
+msgstr ""
+
+msgid "today"
+msgstr "Hoy"
+
+msgid "unknown Model"
+msgstr "modelo desconocido"
+
+msgid "upcoming"
+msgstr ""
+
+msgid "was assigned for take back"
+msgstr ""
+
+msgid "while deleting a hand over line"
+msgstr ""
+
+msgid "while deleting hand over for"
+msgstr ""
+
+msgid "while deleting order line for"
+msgstr ""
+
+msgid "while try to send an e-mail reminder to:"
+msgstr ""
+
+msgid "you cannot hand out reservations wich are starting in the future"
+msgstr ""
+
+msgid "you cannot hand out reservations with unassigned inventory codes"
+msgstr ""
+
+msgid "Option"
+msgstr ""
+
+msgid "Options"
+msgstr ""
+
+msgid "Refresh Page"
+msgstr "Actualizar página"
+
+msgid "is not a valid URL"
+msgstr "no es una URL valida"
+
+msgid "is not a HTTP(S) URL"
+msgstr "no es una URL HTTP(S)"
+
+msgid "Only enter whole numbers"
+msgstr "Solo ingrese números enteros"
+
+msgid "User does not have access to inventory pool: %s"
+msgstr "El usuario no tiene acceso al grupo de inventarios: %s"
+
+msgid "User is suspended for inventory pool: %s"
+msgstr "El usuario está suspendido para el grupo de inventarios: %s"
+
+msgid "An order can not have multiple delegated users."
+msgstr "Un pedido no puede tener múltiples usuarios delegados."
+
+msgid "Invalid date"
+msgstr "fecha no válida"
+
+msgid "Start and end date cannot be in the past"
+msgstr "Fecha de inicio y fin no puede ser en el pasado"
+
+msgid "Manage user roles via Groups."
+msgstr "Manejo los roles de los usuarios a través de Grupos."
+
+msgid "A Group contains several users. These users can gain a role by assigning the role to their Group."
+msgstr "Un grupo contiene varios usuarios. Estos usuarios pueden obtener un rol asignando el rol a su Grupo."
+
+msgid "To allocate models to users use the %s."
+msgstr "Para asignar modelos a los usuarios use los %s."
+
+msgid "Expand All"
+msgstr "Expandir Todo"
+
+msgid "Close All"
+msgstr "Cierra Todo"
+
+msgid "legacy_manage_users_new_admin_section_notice"
+msgstr "Los usuarios y sus derechos de acceso también se pueden manejar en la nueva sección Admin."
+
+msgid "legacy_manage_entitlement_group_new_admin_section_notice"
+msgstr "Los usuarios y grupos de esta entitlement-group se manejan en la nueva sección Admin."
+
+msgid "legacy_manage_group_new_admin_section_notice"
+msgstr "Los grupos se manejan en la nueva sección Admin."
+
+msgid "create_multiple_items_inv_code_notice"
+msgstr "Cuando se crean varios artículos a la vez, el código de inventario no se puede establecer individualmente. En su lugar, se genera automáticamente la menor lista continua posible de códigos de inventario."
+
+msgid "create_multiple_items_label_quantity"
+msgstr "Cantidad"
+
+msgid "create_multiple_items_label_date"
+msgstr "Fecha"
+
+msgid "create_multiple_items_head_title"
+msgstr "¡Artículos creados con éxito!"
+
+msgid "create_multiple_items_head_summary"
+msgstr "Resumen"
+
+msgid "create_multiple_items_head_list"
+msgstr "Lista de elementos creados"
+
+msgid "create_multiple_items_label_export"
+msgstr "Exportar"
+
+msgid "create_multiple_items_btn_csv_export"
+msgstr "Guardar como CSV"
+
+msgid "create_multiple_items_hint_csv_export"
+msgstr "(por ejemplo, para su uso con una impresora de etiquetas)"
+
+msgid "create_multiple_items_checkbox_show_barcode"
+msgstr "Mostrar códigos de barras"
+
+msgid "create_multiple_items_checkbox_show_full_urls"
+msgstr "Mostrar URLs completas"
+
+msgid "Lending Terms"
+msgstr "Condiciones de préstamo"
+
+msgid "accept_lending_terms_label"
+msgstr "Acepto las condiciones de préstamo: "
+
+msgid "contract_contact_details_heading"
+msgstr "Detalles de contacto"
+
+msgid "customer_order_contact_details_label"
+msgstr "Detalles de contacto"
+
+msgid "customer_order_contact_details_placeholder"
+msgstr "Se recomienda indicar un número de teléfono"
+
+msgid "The order has already been dealt with."
+msgstr "El pedido ya ha sido procesado."

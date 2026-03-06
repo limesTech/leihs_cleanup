@@ -1,0 +1,7 @@
+*.log
+/.vagrant
+/inventory/master_secret.txt
+/tmp
+/vagrant-ssh-config
+/reverse-proxy/tmp
+.env.local

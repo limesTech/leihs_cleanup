@@ -1,0 +1,58 @@
+query getCurrentUserProfilePage {
+  currentUser {
+    user {
+      ...userDataProps
+
+      contracts(orderBy: { attribute: CREATED_AT, direction: DESC }) {
+        edges {
+          node {
+            id
+            printUrl
+            compactId
+            createdAt
+            inventoryPool {
+              ...poolProps
+            }
+          }
+        }
+      }
+
+      delegations {
+        id
+        name
+        responsible {
+          firstname
+          lastname
+          email
+        }
+      }
+
+      suspensions {
+        id
+        suspendedUntil
+        suspendedReason
+        inventoryPool {
+          ...poolProps
+        }
+      }
+    }
+  }
+}
+
+fragment userDataProps on User {
+  id
+  name
+  login
+  email
+  secondaryEmail
+  badgeId
+  phone
+  organization
+  orgId
+}
+
+fragment poolProps on InventoryPool {
+  id
+  shortname
+  name
+}

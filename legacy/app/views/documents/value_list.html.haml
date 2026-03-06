@@ -1,0 +1,63 @@
+- content_for :title, "#{_("Value List for Lending Contract No.")} #{@contract.compact_id}"
+
+.value_list
+
+  %h1
+    = _("Value List for Lending Contract No.")
+    = @contract.compact_id
+    = _("from %s") % l(@contract.created_at.to_date)
+    %span.weeknumber W#{@contract.created_at.strftime("%U")}
+  .date
+    = l Time.now.to_date
+
+  %section.parties
+    = render "documents/customer"
+    = render "documents/inventory_pool"
+    .clear
+
+  %section.list
+    %table
+      %thead
+        %tr
+          %td.consecutive_number= _("No.")
+          %td.inventory_code= _("Inventory Code")
+          %td.model_name= _("Model")
+          %td.end_date= _("End date")
+          %td.quantity= _("Quantity")
+          %td.item_price= _("Value")
+
+      %tbody
+        - consecutive_number = 0
+        - @contract.reservations.sort.each do |line|
+          %tr
+            %td.consecutive_number
+              - if line.quantity > 1
+                = "%s/%s" % [consecutive_number += 1, consecutive_number += line.quantity-1]
+              - else
+                = consecutive_number += 1
+            %td.inventory_code= line.item.inventory_code
+            %td.model_name
+              = line.model.name
+              - if line.model.is_a? Software
+                %br
+                = line.item.serial_number
+              - if line.model.is_a?(Model) and line.model.is_package?
+                %ul
+                  - line.item.children.each do |item|
+                    %li= item
+              - if line.model.is_a?(Model) and not (accessories = line.model.accessories.active_in(current_inventory_pool)).blank?
+                %ul
+                  - accessories.each do |accessory|
+                    %li= accessory
+            %td.end_date= l line.end_date
+            %td.quantity= line.quantity
+            %td.item_price= number_to_currency(line.price, format: '%n %u', :unit => app_settings.local_currency_string)
+
+      %tfoot.total
+        %tr
+          %td{:colspan => 4}
+            %strong= _("Total")
+          %td.quantity
+            %strong= @contract.total_quantity
+          %td.value
+            %strong= number_to_currency(@contract.total_price, format: '%n %u', :unit => app_settings.local_currency_string)

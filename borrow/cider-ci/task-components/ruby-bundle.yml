@@ -1,0 +1,14 @@
+traits:
+  asdf: true
+
+scripts:
+  borrow-ruby-bundle:
+    exclusive_executor_resource: asdf-ruby
+    timeout: 20 Minutes
+    body: |
+      #!/usr/bin/env bash
+      set -euo pipefail
+      cd $LEIHS_BORROW_DIR
+      ./bin/env/ruby-setup
+
+

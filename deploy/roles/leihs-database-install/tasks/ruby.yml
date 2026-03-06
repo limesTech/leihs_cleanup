@@ -1,0 +1,30 @@
+- name: setup asdf
+  include_role:
+    name: asdf
+  vars:
+    asdf_user: '{{leihs_database_user}}'
+
+- name: setup asdf ruby
+  include_role:
+    name: asdf-ruby
+  vars:
+    asdf_user: '{{leihs_database_user}}'
+
+- name: install ruby
+  import_tasks: shared/task_install_ruby.yml
+  vars:
+    working_dir: "{{leihs_database_dir}}"
+    become_user: "{{leihs_database_user}}"
+
+- name: bundle ruby
+  shell: |
+    #!/bin/bash
+    set -eux
+    source ~/.asdf/current/asdf.sh
+    cd {{leihs_database_dir}}
+    bundle install
+  args:
+    executable: /bin/bash
+  become: yes
+  become_user: "{{leihs_database_user}}"
+  become_method: sudo

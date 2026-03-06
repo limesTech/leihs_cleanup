@@ -1,0 +1,15 @@
+- content_for :title, _("not available")
+
+.wrapper.margin-top-m
+
+  .row.content-wrapper.min-height-xl.min-width-full.straight-top
+
+    .margin-top-l.padding-horizontal-m
+
+      .row
+
+        %h1.headline-xxl.float-left.darkred-text= _("%s not available") % _(section)
+
+      .row.margin-top-m
+
+        %p.paragraph-m.darkred-text= message

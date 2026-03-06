@@ -1,0 +1,5 @@
+- if params[:for] == "flexibleFields"
+  != @item.to_json Manage::ItemsController::JSON_SPEC
+
+- else
+  != @item.to_json

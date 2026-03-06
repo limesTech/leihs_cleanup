@@ -1,0 +1,53 @@
+context:
+  generate_tasks:
+    # include_match: ^spec\/(.*)admin_crud.feature
+    include_match: ^spec\/features\/(.*)(_spec\.rb|\.feature)$
+
+  task_defaults:
+    include:
+      - path: cider-ci/task-components/database.yml
+        submodule: [ server/database ]
+      - cider-ci/task-components/env-vars.yml
+      - cider-ci/task-components/uberjar.yml
+      - cider-ci/task-components/service.yml
+      - cider-ci/task-components/bundle-ruby.yml
+    environment_variables:
+      LEIHS_PROCURE_DIR: "{{CIDER_CI_WORKING_DIR}}"
+      LEIHS_PROCURE_SPEC_DIR: "{{LEIHS_PROCURE_DIR}}"
+      LEIHS_DATABASE_DIR: "{{LEIHS_PROCURE_DIR}}/server/database"
+
+    max_trials: 2
+
+    traits:
+      asdf: true
+
+    ports:
+      LEIHS_PROCURE_HTTP_PORT:
+        min: 3200
+        max: 3299
+
+    git_options:
+      submodules:
+        include_match: ^.*$
+
+    trial_attachments:
+      screenshots:
+        include_match: tmp\/(.*-|)screenshots\/.*\.png$
+        content_type: image/png
+
+    scripts:
+      test:
+        timeout: 6 Minutes
+        start_when:
+          procure service is running:
+            script_key: procure-service-is-running
+            states: [ passed ]
+        body: |
+          #!/usr/bin/env bash
+          set -euo pipefail
+          cd $LEIHS_PROCURE_DIR
+          mkdir -p log
+          unset PGPORT; unset PGUSER
+          PGPORT=${PG15PORT} PGUSER=${PG15USER} \
+            xvfb-run -a -e log/xvfb.log \
+            ./bin/rspec $CIDER_CI_TASK_FILE

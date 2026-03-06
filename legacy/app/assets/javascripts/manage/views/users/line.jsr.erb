@@ -1,0 +1,90 @@
+<div class='row line'>
+  <div class='col2of10 line-col'>
+    <strong data-address='{{>address}}' data-badge_id='{{>badge_id}}' data-city='{{>city}}' data-email='{{>email}}' data-firstname='{{>firstname}}' data-id='{{>id}}' data-image_url='{{>image_url}}' data-lastname='{{>lastname}}' data-phone='{{>phone}}' data-type='user-cell' data-zip='{{>zip}}'>
+      {{>name()}}
+    </strong>
+  </div>
+  <div class='col2of10 line-col text-align-left'>
+    {{>phone}}
+  </div>
+  <div class='col1of10 line-col text-align-left'>
+    {{>roleName()}}
+  </div>
+  <div class='col2of10 line-col text-align-left darkred-text'>
+    {{if suspended()}}
+    {{jed "Suspended until"/}} {{date suspendedUntil()/}}
+    {{/if}}
+  </div>
+  <div class='col3of10 line-col line-actions'>
+    {{if ~currentInventoryPool && accessRight()}}
+    <div class='multibutton'>
+      <a class='button white' href='{{>url('hand_over')}}'>
+        <i class='fa fa-mail-forward'></i>
+        {{jed "Hand Over"/}}
+      </a>
+      <div class='dropdown-holder inline-block'>
+        <div class='button white dropdown-toggle'>
+          <div class='arrow down'></div>
+        </div>
+        <ul class='dropdown right'>
+          {{if !isDelegation()}}
+          <li>
+            <a class='dropdown-item' href='/admin/inventory-pools/{{> ~currentInventoryPool.id}}/users/{{>id}}'>
+              <i class='fa fa-eye'></i>
+              {{jed "Show user"/}}
+            </a>
+          </li>
+          {{else}}
+          <li>
+            <a class='dropdown-item' href='/admin/inventory-pools/{{> ~currentInventoryPool.id}}/delegations/{{>id}}'>
+              <i class='fa fa-eye'></i>
+              {{jed "Show delegation"/}}
+            </a>
+          </li>
+          {{/if}}
+          <li>
+            <a class='dropdown-item' href='mailto:{{>email}}'>
+              <i class='fa fa-envelope'></i>
+              {{jed "E-Mail"/}}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    {{else}}
+    <div class='multibutton'>
+      {{if !isDelegation()}}
+      <a class='button white' href='/admin/inventory-pools/{{> ~currentInventoryPool.id}}/users/{{>id}}'>
+        <i class='fa fa-eye'></i>
+        {{jed "Show user"/}}
+      </a>
+      {{else}}
+        {{if accessRight()}}
+        <a class='button white' href='/admin/inventory-pools/{{> ~currentInventoryPool.id}}/delegations/{{>id}}'>
+          <i class='fa fa-eye'></i>
+          {{jed "Show delegation"/}}
+        </a>
+        {{else}}
+        <a class='button white' href='/admin/inventory-pools/{{> ~currentInventoryPool.id}}/delegations/?membership=any&page=1&term={{encodeURIComponent name() /}}'>
+          <i class='fa fa-eye'></i>
+          {{jed "Show delegation"/}}
+        </a>
+        {{/if}}
+      {{/if}}
+      <div class='dropdown-holder inline-block'>
+        <div class='button white dropdown-toggle'>
+          <div class='arrow down'></div>
+        </div>
+        <ul class='dropdown right'>
+          <li>
+            <a class='dropdown-item' href='mailto:{{>email}}'>
+              <i class='fa fa-envelope'></i>
+              {{jed "E-Mail"/}}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    {{/if}}
+  </div>
+</div>

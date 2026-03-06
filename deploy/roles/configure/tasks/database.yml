@@ -1,0 +1,7 @@
+- template:
+    src: database.yml
+    dest: /leihs/config/database.yml
+    mode: 0600
+    owner: root
+  name: set master database config
+

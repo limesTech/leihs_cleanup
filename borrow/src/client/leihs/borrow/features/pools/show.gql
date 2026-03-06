@@ -1,0 +1,22 @@
+query getPool($id: UUID!) {
+  inventoryPool(id: $id) {
+    id
+    contact
+    description
+    email
+    name
+    shortname
+    hasReservableItems
+    maximumReservationDuration
+    holidays {
+      startDate
+      endDate
+      name
+    }
+    workdays {
+      day
+      open
+      info
+    }
+  }
+}

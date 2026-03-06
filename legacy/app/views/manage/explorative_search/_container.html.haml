@@ -1,0 +1,11 @@
+%div{:class => params[:navigation].blank? ? "explorative-navigation" : "explorative-navigation open"}
+  
+  %div.explorative-header.hidden
+
+    %input.explorative-search.clearable{:type => :text, :placeholder => _("Search %s") % _("Category"), :tabindex => -1, :autocomplete => :off}
+    .clear.icon.hidden
+
+  .explorative-container
+
+    %span.loading
+      = image_tag "loading.gif"

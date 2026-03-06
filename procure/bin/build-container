@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+### VARIABLES and PWD #########################################################
+
+PROJECT_NAME="leihs-procure"
+PROJECT_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" ; cd .. > /dev/null 2>&1 && pwd -P)"
+cd "${PROJECT_DIR}"
+
+source "${PROJECT_DIR}/bin/env/asdf-helper.bash"
+asdf-load
+
+# you can override here some of the vars defined in helpers/build.sh, e.g.
+SHARED_CLJ_DIR="${PROJECT_DIR}/server/shared-clj"
+ARTEFACT_PATH="$PROJECT_DIR/server/target/$PROJECT_NAME.jar"
+
+source "${SHARED_CLJ_DIR}/bin/helpers/build.sh"
+
+cd "${PROJECT_DIR}"
+
+### functions #################################################################
+
+function build_core {
+  ./client/bin/build $PROJECT_DIR 
+  ./server/bin/clj-uberjar $PROJECT_DIR
+}
+
+### MAIN ######################################################################
+
+build
+cd -
+echo "OK ✔"
+
+# vi: ft=sh

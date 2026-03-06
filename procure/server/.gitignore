@@ -1,0 +1,11 @@
+.lein-env
+.lein-failures
+.lein-repl-history
+.nrepl-port
+/.sass-cache
+/log
+/target
+/tmp
+figwheel_server.log
+profiles.clj
+/resources/dev/log4j.properties

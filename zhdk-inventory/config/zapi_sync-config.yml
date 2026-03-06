@@ -1,0 +1,33 @@
+core:
+  group-create-defaults:
+    admin_protected: true
+  group-filter-blacklist-regexes:
+    - 'App_.*'
+    - 'Verteilerliste.*'
+    - 'Webadmin'
+  group-filter-whitelist-regex: .*
+  group-update-defaults:
+    admin_protected: true
+  source: zapi
+  user-create-defaults:
+    password_sign_in_enabled: false
+    account_enabled: true
+    admin_protected: true
+  user-disable-properties:
+    account_enabled: false
+  user-photo-mode: lazy
+  user-update-defaults:
+    account_enabled: true
+    admin_protected: true
+  organization: zhdk.ch
+leihs:
+  base-url: 'http://localhost:{{LEIHS_ADMIN_HTTP_PORT}}'
+  token: '{{prod_v5_api_sync_token}}'
+repl:
+  enabled: false
+  bind: localhost
+  port-file: .nrepl-port
+zapi:
+  page-limit: 100
+  token: '{{zapi_key_prod}}'
+prtg-url: '{{prod_v5_sync_prtg_url}}'

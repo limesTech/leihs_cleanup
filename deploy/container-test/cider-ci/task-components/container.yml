@@ -1,0 +1,39 @@
+traits:
+  incus: yes
+
+scripts:
+
+  create-container:
+    start_when:
+      ruby is installed and bundled:
+        script_key: ruby-bundle
+      nodejs is installed:
+        script_key: install-nodejs
+    body: |
+      #!/usr/bin/env bash
+      set -euo pipefail
+      set -x
+      incus image list
+      incus list
+      incus launch --ephemeral ${CONTAINER_BASE_IMAGE} ${CONTAINER_NAME}
+      incus list
+
+
+  destroy-container:
+    start_when:
+      test failed:
+        script_key: test
+        states: [aborted, passed, failed, skipped]
+    ignore_abort: yes
+    timeout: 1 Hour
+    body: |
+      #!/usr/bin/env bash
+      set -euo pipefail
+      incus list
+      incus info "$CONTAINER_NAME"
+
+      # enable for debugging; keeps the container running for a while
+      # sleep 1000
+
+      until incus delete --force "$CONTAINER_NAME"; do sleep 10; done
+      incus list

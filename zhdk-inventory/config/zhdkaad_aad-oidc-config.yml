@@ -1,0 +1,29 @@
+port: '3434'
+
+# doesn't work if UPN is not eq email; set this to true
+# once the ZHdK switched to email = UPN
+send_login_hint: false
+
+external_base_url: 'https://{{leihs_external_hostname}}'
+name: 'zhdkaad'
+leihs_auth_id: 'zhdkaad'
+
+
+private_key: |
+{{ zhdk_aad_auth_system_private_key | indent(2, True)}}
+
+public_key: |
+  -----BEGIN PUBLIC KEY-----
+  MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEIANfIIzO7kT3MewgDZshUTqy3DSb
+  L4B/+3sZZzI1XfiseDQgvHhL6T5BFzxk/VFEzU4leUUlOBRZv+hdabqp2g==
+  -----END PUBLIC KEY-----
+
+leihs_public_key: |
+  -----BEGIN PUBLIC KEY-----
+  MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEDvC5Sab03HcjJ7MWJLbXVyE77gx+
+  nopD1pIUDwJtqxa7nnLPbGZbbnFWCyWABydQIC+hwCjeflheiQBiyjWIrw==
+  -----END PUBLIC KEY-----
+
+tenant: eff1ebf7-73e5-4e3d-befd-52d69e759214
+client_id: '{{zhdkaad_client_id}}'
+email_attribute: 'email'

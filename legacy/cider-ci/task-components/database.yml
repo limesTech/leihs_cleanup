@@ -1,0 +1,8 @@
+traits:
+  asdf: true
+
+include:
+  - path: cider-ci/task-components/database.yml
+    submodule: [database]
+  - path: cider-ci/task-components/database/configure.yml
+

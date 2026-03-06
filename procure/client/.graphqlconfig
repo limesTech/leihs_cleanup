@@ -1,0 +1,12 @@
+{
+  "projects": {
+    "leihs-procurement": {
+      "schemaPath": "schema.graphql",
+      "extensions": {
+        "endpoints": {
+          "default": "http://localhost:3230/procure/graphql"
+        }
+      }
+    }
+  }
+}

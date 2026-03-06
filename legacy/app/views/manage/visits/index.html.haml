@@ -1,0 +1,8 @@
+- content_for :title, _("List of Visits")
+- content_for :lending_section, "active"
+
+#visits-index-view.wrapper.margin-top-m
+
+  = render :partial => 'manage/tabs/lending', :locals => {:active_tab => :visits}
+
+  = react_component('VisitsIndex', @props)

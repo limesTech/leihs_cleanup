@@ -1,0 +1,27 @@
+jobs:
+
+
+  ### Staging #####################################################################
+
+  staging-restore-deploy:
+    name: Restore prod data and deploy to staging
+    include: cider-ci/job-components/deploy.yml
+    context:
+      task_defaults:
+        exclusive_global_resources:
+          zhdk-leihs-staging.ruby.zhdk.ch: true
+        environment_variables:
+          DEPLOY_TARGET_INVENTORY: "hosts.yml --limit staging"
+        include: cider-ci/task-components/restore.yml
+
+  staging-deploy:
+    name: Deploy to staging.ruby.zhdk.ch
+    include: cider-ci/job-components/deploy.yml
+    context:
+      task_defaults:
+        exclusive_global_resources:
+          zhdk-leihs-staging.ruby.zhdk.ch: true
+        environment_variables:
+          DEPLOY_TARGET_INVENTORY: "hosts.yml --limit staging"
+
+

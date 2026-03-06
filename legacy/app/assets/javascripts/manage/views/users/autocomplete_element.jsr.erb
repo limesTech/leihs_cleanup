@@ -1,0 +1,15 @@
+<li class='separated-bottom exclude-last-child'>
+  <a class='row' title='{{>firstname}} {{>lastname}}'>
+    <div class='row text-ellipsis'>
+      <strong>
+        {{>firstname}}
+        {{>lastname}}
+      </strong>
+    </div>
+    {{if address || city}}
+    <div class='row text-ellipsis'>
+      {{>address}}, {{>city}}
+    </div>
+    {{/if}}
+  </a>
+</li>

@@ -1,0 +1,3 @@
+reports: -p base
+default: -p base -e features/reports --publish-quiet
+base: -r features --format pretty

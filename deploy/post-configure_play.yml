@@ -1,0 +1,11 @@
+- hosts: leihs_server
+
+  roles:
+
+  - role: defaults
+    tags: [always]
+
+  - role: post-configure
+    tags: [post-configure]
+
+

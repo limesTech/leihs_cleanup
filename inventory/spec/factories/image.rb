@@ -1,0 +1,48 @@
+require "base64"
+
+class Image < Sequel::Model
+  many_to_one(:category, key: :target_id)
+  many_to_one(:leihs_model, key: :target_id)
+  one_to_many(:thumbnails, class: self, key: :parent_id)
+end
+
+FactoryBot.define do
+  factory :image do
+    transient do
+      real_filename { "lisp-machine.jpg" }
+      thumbnails { [] }
+      target { create(:leihs_model) }
+    end
+
+    trait :for_leihs_model do
+      target_type { "Model" }
+      target_id { target&.id || create(:leihs_model).id }
+    end
+
+    trait :for_category do
+      target_type { "ModelGroup" }
+      target_id { target&.id || create(:category).id }
+    end
+
+    filename { real_filename }
+    content_type { "image/jpeg" }
+    size { 160000 }
+
+    after(:build) do |image, trans|
+      unless image.target_type
+        raise "`target_type` is nil. Use one of the traits!"
+      end
+
+      file_path = "spec/files/#{trans.real_filename}"
+      file = File.new(file_path)
+
+      image.content = Base64.encode64(file.read)
+    end
+
+    after(:create) do |image, trans|
+      trans.thumbnails.each do |thumbnail|
+        image.add_thumbnail(thumbnail)
+      end
+    end
+  end
+end

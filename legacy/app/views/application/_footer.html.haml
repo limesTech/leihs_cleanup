@@ -1,0 +1,29 @@
+:ruby
+  product_name = 'leihs'
+  documentation_link = app_settings.try(:documentation_link).try(:strip).presence
+  active_language = Language.find_by_locale(I18n.locale)
+
+%footer.separated-top.emboss
+
+  .wrapper.padding-top-m.padding-horizontal-s
+
+    .col1of10.padding-top-xs.padding-left-xs
+      - if documentation_link
+        %a.headline-m.light{href: documentation_link}= product_name
+      - else
+        %span.headline-m.light= product_name
+
+    .col9of10.padding-top-xs
+
+      .padding-top-xxs
+        .padding-top-xxs
+
+          .col1of1.text-align-right
+
+            %i.fa.fa-globe.grey.margin-right-s
+            - Language.active_languages.each do |language|
+              - if language == active_language
+                %a.dark-grey.padding-inset-s{:href => ""}
+                  %strong= language.name
+              - else
+                %a.dark-grey.padding-inset-s{:href => @bread_crumbs ? @bread_crumbs.path_for(url_for(params.to_unsafe_hash.merge(:locale => language.locale))) : url_for(params.to_unsafe_hash.merge(:locale => language.locale))}= language.name

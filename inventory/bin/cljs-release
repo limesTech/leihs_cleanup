@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+PROJECT_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" ; cd .. > /dev/null 2>&1 && pwd -P)"
+cd $PROJECT_DIR
+
+echo $PROJECT_DIR
+ls
+
+${PROJECT_DIR}/bin/env/java-setup
+${PROJECT_DIR}/bin/env/clojure-setup
+${PROJECT_DIR}/bin/env/nodejs-setup
+
+npm ci
+npm run build

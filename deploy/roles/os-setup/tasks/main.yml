@@ -1,0 +1,25 @@
+- include_tasks: prepare.yml
+
+- include_tasks: etckeeper.yml
+
+- include_tasks: locales.yml
+
+- include_tasks: journald.yml
+
+- include_tasks: time.yml
+
+- include_tasks: ntp.yml
+  when: ntp_setup
+  tags: [ntp]
+
+- include_tasks: vim.yml
+  when: ci_vim_mode
+
+- include_tasks: monit.yml
+
+- include_tasks: vmware.yml
+
+- include_tasks: ssh-keys.yml
+  tags: [ssh-keys]
+
+

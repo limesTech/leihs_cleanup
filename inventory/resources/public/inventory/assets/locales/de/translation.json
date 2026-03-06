@@ -1,0 +1,844 @@
+{
+  "fields": {
+    "Mandatory data": {
+      "title": "Pflichtangaben",
+      "count": "Anzahl Gegenstände erstellen",
+      "inventory_code": "Inventarcode",
+      "model_id": "Modell"
+    },
+    "Content": {
+      "title": "Inhalt"
+    },
+    "Package": {
+      "title": "Paket"
+    },
+    "Inventory": {
+      "title": "Inventar",
+      "last_check": "Letzte Inventur",
+      "inventory_pool_id": "Verantwortliche Abteilung",
+      "responsible": "Verantwortliche Person",
+      "is_inventory_relevant": "Inventarrelevant",
+      "owner_id": "Besitzer",
+      "user_name": "Benutzer/Verwendung"
+    },
+    "Invoice Information": {
+      "title": "Rechnungsinformationen",
+      "invoice_number": "Rechnungsnummer",
+      "invoice_date": "Rechnungsdatum",
+      "price": "Anschaffungswert",
+      "properties_project_number": "Projektnummer",
+      "supplier_id": "Lieferant",
+      "properties_reference": "Bezug",
+      "properties_warranty_expiration": "Garantieablaufdatum",
+      "properties_p4u": "P4U-Nummer",
+      "properties_contract_expiration": "Vertragsablaufdatum"
+    },
+    "General Information": {
+      "title": "Allgemeine Informationen",
+      "serial_number": "Seriennummer",
+      "properties_imei_number": "IMEI-Nummer",
+      "properties_mac_address": "MAC-Adresse",
+      "name": "Name",
+      "attachments": "Anhänge",
+      "note": "Notiz"
+    },
+    "Status": {
+      "title": "Zustand",
+      "retired": "Ausmusterung",
+      "retired_reason": "Grund der Ausmusterung",
+      "is_broken": "Zustand",
+      "is_borrowable": "Ausleihbar",
+      "is_incomplete": "Vollständigkeit",
+      "status_note": "Statusnotiz"
+    },
+    "Eigenschaften": {
+      "title": "Eigenschaften",
+      "properties_electrical_power": "Verbrauch in kw/h",
+      "properties_ampere": "Ampère"
+    },
+    "Location": {
+      "title": "Ort",
+      "room_id": "Raum",
+      "building_id": "Gebäude",
+      "shelf": "Gestell"
+    }
+  },
+  "pagination": {
+    "previous": "Vorherige",
+    "next": "Nächste",
+    "range": "{{range}} von insgesamt {{total}} Zeilen",
+    "per-page": "Zeilen pro Seite"
+  },
+  "header": {
+    "links": {
+      "global-search": "Suche global",
+      "inventory": "Inventar",
+      "lending": "Verleih"
+    },
+    "app-menu": {
+      "borrow": "Ausleihen",
+      "admin": "Admin",
+      "procure": "Bedarfsermittlung",
+      "inventory-pools": "Geräteparks",
+      "inventory": "Inventar"
+    },
+    "user-menu": {
+      "user-data": "Benutzerdaten",
+      "my-documents": "Meine Dokumente",
+      "logout": "Logout",
+      "language": "Sprache",
+      "theme": {
+        "title": "Anzeige",
+        "light": "Hell",
+        "dark": "Dunkel",
+        "system": "System"
+      }
+    }
+  },
+  "intlDateTime": "{{val, datetime}}",
+  "pool": {
+    "inventory": {
+      "breadcrumbs": {
+        "inventory": "Inventar"
+      }
+    },
+    "items": {
+      "item": {
+        "create": {
+          "title": "Neuen Gegenstand erstellen",
+          "description": "Geben Sie alle erforderlichen Informationen an",
+          "submit": "Erstellen",
+          "cancel": "Abbrechen",
+          "success": "Gegenstand wurde erfolgreich erstellt",
+          "invalid_one": "Gegenstand konnte nicht erstellt werden, da ein Feld ungültig ist",
+          "invalid_other": "Gegenstand konnte nicht erstellt werden, da {{count}} Felder ungültig sind",
+          "conflict": "Inventarcode existiert bereits",
+          "error": "Beim Erstellen ist ein Fehler aufgetreten"
+        },
+        "edit": {
+          "title": "Gegenstand bearbeiten",
+          "description": "Nehmen Sie Änderungen vor und speichern Sie anschliessend",
+          "submit": "Speichern",
+          "delete": "Löschen",
+          "success": "Gegenstand wurde erfolgreich gespeichert",
+          "invalid_one": "Gegenstand konnte nicht gespeichert werden, da ein Feld ungültig ist",
+          "invalid_other": "Gegenstand konnte nicht gespeichert werden, da {{count}} Felder ungültig sind",
+          "conflict": "Inventarcode existiert bereits",
+          "error": "Beim speichern ist ein Fehler aufgetreten",
+          "package_item": "Gegenstand ist teil eines Pakets"
+        },
+        "delete": {
+          "title": "Gegenstand löschen",
+          "description": "Sind Sie sicher, dass Sie diesen Gegenstand löschen möchten?",
+          "confirm": "Löschen",
+          "cancel": "Abbrechen",
+          "success": "Gegenstand wurde erfolgreich gelöscht",
+          "error": "Gegenstand konnte nicht gelöscht werden"
+        },
+        "fields": {
+          "disabled": {
+            "protected": "Nur der Besitzer kann dieses Feld bearbeiten",
+            "model-selected": "Dieses Feld ist gesperrt, da ein Modell ausgewählt wurde",
+            "multiple-items": "Dieses Feld ist gesperrt beim Erstellen mehrerer Gegenstände",
+            "owner-locked": "Der Besitzer wird automatisch zugewiesen",
+            "generic": "Dieses Feld ist derzeit deaktiviert"
+          },
+          "inactive": "Inaktiv",
+          "autocomplete": {
+            "select": "Auswahl treffen",
+            "search": "Suchbegriff eingeben",
+            "empty": "Keine Ergebnisse zu diesem Suchbegriff gefunden"
+          }
+        }
+      },
+      "review": {
+        "title": "Gegenstände erfolgreich erstellt",
+        "summary": {
+          "title": "Zusammenfassung",
+          "count": "Anzahl",
+          "name": "Name",
+          "date": "Datum"
+        },
+        "export": "Export",
+        "list_title": "Liste der erstellten Gegenstände",
+        "toggles": {
+          "show_barcodes": "Zeige Barcodes",
+          "show_urls": "Zeige URLs"
+        },
+        "table": {
+          "headers": {
+            "number": "#",
+            "barcode": "Barcode",
+            "inventory_code": "Inventarcode",
+            "serial_number": "Seriennummer",
+            "url": "URL",
+            "uuid": "UUID"
+          }
+        },
+        "serial_number": {
+          "placeholder": "Seriennummer eingeben",
+          "success": "Seriennummer aktualisiert",
+          "error": "Seriennummer konnte nicht aktualisiert werden"
+        },
+        "back_to_inventory": "Zurück zum Inventar"
+      }
+    },
+    "packages": {
+      "package": {
+        "create": {
+          "title": "Neues Paket erstellen",
+          "description": "Geben Sie alle erforderlichen Informationen an",
+          "submit": "Paket",
+          "cancel": "Abbrechen",
+          "success": "Paket wurde erfolgreich erstellt",
+          "invalid_one": "Paket konnte nicht erstellt werden, da ein Feld ungültig ist",
+          "invalid_other": "Paket konnte nicht erstellt werden, da {{count}} Felder ungültig sind",
+          "conflict": "Inventarcode existiert bereits",
+          "error": "Beim Erstellen ist ein Fehler aufgetreten"
+        },
+        "edit": {
+          "title": "Paket bearbeiten",
+          "description": "Nehmen Sie Änderungen vor und speichern Sie anschliessend",
+          "submit": "Speichern",
+          "retire": "Ausmustern",
+          "delete": "Löschen",
+          "cancel": "Abbrechen",
+          "success": "Paket wurde erfolgreich gespeichert",
+          "invalid_one": "Paket konnte nicht gespeichert werden, da ein Feld ungültig ist",
+          "invalid_other": "Paket konnte nicht gespeichert werden, da {{count}} Felder ungültig sind",
+          "conflict": "Inventarcode existiert bereits",
+          "error": "Beim Speichern ist ein Fehler aufgetreten",
+          "empty_package": "Alle Gegenstände wurden aus dem Paket entfernt. Ausmusterung und der Ausmusterungsgrund wurden automatisch gesetzt.",
+          "auto_retire_reason": "Automatische Ausmusterung aufgrund leerem Paket"
+        },
+        "delete": {
+          "title": "Paket löschen",
+          "description": "Sind Sie sicher, dass Sie dieses Paket löschen möchten?",
+          "confirm": "Löschen",
+          "cancel": "Abbrechen",
+          "success": "Paket wurde erfolgreich gelöscht",
+          "error": "Paket konnte nicht gelöscht werden"
+        },
+        "fields": {
+          "disabled": {
+            "protected": "Nur der Besitzer kann dieses Feld bearbeiten",
+            "generic": "Dieses Feld ist derzeit deaktiviert"
+          },
+          "autocomplete": {
+            "select": "Auswahl treffen",
+            "search": "Suchbegriff eingeben",
+            "empty": "Keine Ergebnisse zu diesem Suchbegriff gefunden"
+          },
+          "items": {
+            "label": "Gegenstände",
+            "select": "Gegenstände auswählen",
+            "search": "Gegenstände suchen",
+            "searching": "Suche läuft...",
+            "search_empty": "Geben Sie mindestens 2 Zeichen ein, um zu suchen",
+            "not_found": "Keine Gegenstände gefunden"
+          }
+        }
+      }
+    },
+    "models": {
+      "title": "Inventarliste",
+      "filters": {
+        "search": {
+          "placeholder": "Filtern nach Begriff"
+        },
+        "type": {
+          "title": "Inventar-Typ",
+          "model": "Modell",
+          "package": "Paket",
+          "option": "Option",
+          "software": "Software"
+        },
+        "status": {
+          "title": "Status",
+          "owned": "Im Besitz",
+          "in_stock": "An Lager",
+          "incomplete": "Unvollständig",
+          "broken": "Defekt",
+          "yes": "Ja",
+          "no": "Nein"
+        },
+        "categories": {
+          "title": "Kategorien"
+        },
+        "inventory_pool": {
+          "title": "Gerätepark",
+          "placeholder": "Gerätepark auswählen",
+          "not_found": "Gerätepark nicht gefunden"
+        },
+        "retired": {
+          "all": "nicht ausgemustert & ausgemustert",
+          "retired": "ausgemustert",
+          "not_retired": "nicht ausgemustert"
+        },
+        "before_last_check": {
+          "title": "Inventur vor"
+        },
+        "with_items": {
+          "all": "Alle Modelle",
+          "with_items": "nur Modelle mit Gegenständen",
+          "without_items": "nur Modelle ohne Gegenstände"
+        },
+        "borrowable": {
+          "all": "ausleihbar & nicht ausleihbar",
+          "borrowable": "ausleihbar",
+          "not_borrowable": "nicht ausleihbar"
+        }
+      },
+      "dropdown": {
+        "title": "Inventar hinzufügen",
+        "add_model": "Neues Modell",
+        "add_package": "Neues Paket",
+        "add_item": "Neuen Gegenstand",
+        "add_option": "Neue Option",
+        "add_software": "Neue Software"
+      },
+      "add_entitlement_group": "Anspruchsgruppe hinzufügen",
+      "add_template": "Vorlage hinzufügen",
+      "tabs": {
+        "inventory_list": "Inventarliste",
+        "advanced_search": "Erweiterte Suche",
+        "statistics": "Statistik",
+        "entitlement_groups": "Anspruchsgruppen",
+        "templates": "Vorlagen"
+      },
+      "list": {
+        "empty": "Keine Einträge gefunden",
+        "package_item": "ist Bestandteil eines Pakets",
+        "shelf": "Lager",
+        "tooltip": {
+          "in_stock": "an Lager",
+          "rentable": "verleihbar"
+        },
+        "item": {
+          "badge": "G",
+          "available": "Verfügbar",
+          "broken": "Defekt",
+          "rented": "Ausgeliehen",
+          "not_borrowable": "Nicht ausleihbar",
+          "incomplete": "Unvollständig"
+        },
+        "header": {
+          "quantity": "Menge",
+          "name": "Name",
+          "availability": "Verfügbarkeit"
+        },
+        "actions": {
+          "edit": "editieren",
+          "add_item": "Gegenstand hinzufügen",
+          "copy_item": "Gegenstand duplizieren"
+        }
+      }
+    },
+    "entitlement_groups": {
+      "title": "Anspruchsgruppen",
+      "description": "Editieren Sie die Anspruchsgruppen und weisen die Modelle und deren Zuteilung zu",
+      "add": "Anspruchsgruppe hinzufügen",
+      "list": {
+        "quantity_error": "Anzahl übersteigt Verfügbarkeit",
+        "empty": "Keine Anspruchsgruppen gefunden",
+        "header": {
+          "name": "Name",
+          "number_of_users": "Anzahl Benutzer",
+          "number_of_models": "Anzahl Modelle",
+          "number_of_allocations": "Anzahl Zuteilungen"
+        },
+        "actions": {
+          "edit": "editieren"
+        },
+        "misc": {
+          "is_verification_required": "Visierungspflichtig"
+        }
+      },
+      "entitlement_group": {
+        "quantity_error": "Anzahl übersteigt Verfügbarkeit",
+        "title": "Anspruchsgruppe",
+        "create": {
+          "description": "Geben Sie alle erforderlichen Informationen an",
+          "submit": "Erstellen",
+          "cancel": "Abbrechen",
+          "success": "Anspruchsgruppe wurde erfolgreich erstellt",
+          "invalid_one": "Anspruchsgruppe konnte nicht erstellt werden, da ein Feld ungültig ist",
+          "invalid_other": "Anspruchsgruppe konnte nicht erstellt werden, da {{count}} Felder ungültig sind",
+          "conflict": "Anspruchsgruppe konnte nicht erstellt werden, da eine Anspruchsgruppe mit dem gleichen Namen bereits existiert",
+          "error": "Beim Erstellen ist ein Fehler aufgetreten"
+        },
+        "edit": {
+          "description": "Nehmen Sie Änderungen vor und speichern Sie anschliessend",
+          "submit": "Speichern",
+          "delete": "Löschen",
+          "cancel": "Abbrechen",
+          "success": "Anspruchsgruppe wurde erfolgreich gespeichert",
+          "invalid_one": "Anspruchsgruppe konnte nicht gespeichert werden, da ein Feld ungültig ist",
+          "invalid_other": "Anspruchsgruppe konnte nicht gespeichert werden, da {{count}} Felder ungültig sind"
+        },
+        "delete": {
+          "title": "Löschen",
+          "description": "Sind Sie sicher, dass Sie diese Anspruchsgruppe löschen möchten?",
+          "confirm": "Löschen",
+          "cancel": "Abbrechen",
+          "success": "Anspruchsgruppe wurde erfolgreich gelöscht",
+          "error": "Anspruchsgruppe konnte nicht gelöscht werden"
+        },
+        "top_section": {
+          "blocks": {
+            "name": {
+              "label": "Name der Anspruchsgruppe"
+            },
+            "is_verification_required": {
+              "label": "Visierungspflichtig",
+              "yes": "Ja",
+              "no": "Nein"
+            }
+          }
+        },
+        "models": {
+          "title": "Zuteilungen",
+          "blocks": {
+            "models": {
+              "label": "Modell auswählen und Anzahl der Anspruchsguppe zuweisen",
+              "not_found": "Modell nicht gefunden",
+              "select": "Modell auswählen",
+              "placeholder": "Modell suchen",
+              "search_empty": "Geben Sie mindestens 2 Zeichen ein",
+              "searching": "Suche...",
+              "available_count_tooltip": "Zuteilungen in anderen Anspruchsgruppen berücksichtigt - noch verfügbare Anzahl an ausleihbaren, nicht ausgemusterten Gegenständen",
+              "items_count_tooltip": "Totale Anzahl an ausleihbaren, nicht ausgemusterten Gegenständen"
+            }
+          }
+        },
+        "users": {
+          "title": "Berechtigte Benutzer",
+          "blocks": {
+            "users": {
+              "not_found": "Benutzer nicht gefunden",
+              "select": "Benutzer auswählen",
+              "placeholder": "Benutzer suchen",
+              "search_empty": "Geben Sie mindestens 2 Zeichen ein",
+              "searching": "Suche...",
+              "account_disabled": "inaktiv"
+            }
+          }
+        },
+        "groups": {
+          "title": "Berechtigte Gruppen",
+          "blocks": {
+            "groups": {
+              "not_found": "Gruppe nicht gefunden",
+              "select": "Gruppe auswählen",
+              "placeholder": "Gruppe suchen",
+              "search_empty": "Geben Sie mindestens 2 Zeichen ein",
+              "searching": "Suche..."
+            }
+          }
+        }
+      }
+    },
+    "templates": {
+      "title": "Vorlagen",
+      "description": "Editieren Sie die Vorlagen und weisen die Modelle zu",
+      "add": "Vorlage hinzufügen",
+      "list": {
+        "quantity_error": "Anzahl übersteigt Verfügbarkeit",
+        "empty": "Keine Vorlagen gefunden",
+        "header": {
+          "name": "Name",
+          "models_count": "Anzahl Modelle"
+        },
+        "actions": {
+          "edit": "editieren"
+        }
+      },
+      "template": {
+        "quantity_error": "Anzahl übersteigt Verfügbarkeit",
+        "title": "Vorlage",
+        "create": {
+          "description": "Geben Sie alle erforderlichen Informationen an",
+          "submit": "Erstellen",
+          "cancel": "Abbrechen",
+          "success": "Vorlage wurde erfolgreich erstellt",
+          "invalid_one": "Vorlage konnte nicht erstellt werden, da ein Feld ungültig ist",
+          "invalid_other": "Vorlage konnte nicht erstellt werden, da {{count}} Felder ungültig sind",
+          "conflict": "Vorlage konnte nicht erstellt werden, da eine Vorlage mit dem gleichen Namen bereits existiert",
+          "error": "Beim Erstellen ist ein Fehler aufgetreten"
+        },
+        "edit": {
+          "description": "Nehmen Sie Änderungen vor und speichern Sie anschliessend",
+          "submit": "Speichern",
+          "delete": "Löschen",
+          "cancel": "Abbrechen",
+          "success": "Vorlage wurde erfolgreich gespeichert",
+          "invalid_one": "Vorlage konnte nicht gespeichert werden, da ein Feld ungültig ist",
+          "invalid_other": "Vorlage konnte nicht gespeichert werden, da {{count}} Felder ungültig sind"
+        },
+        "delete": {
+          "title": "Vorlage löschen",
+          "description": "Sind Sie sicher, dass Sie diese Vorlage löschen möchten?",
+          "confirm": "Löschen",
+          "cancel": "Abbrechen",
+          "success": "Vorlage wurde erfolgreich gelöscht",
+          "error": "Vorlage konnte nicht gelöscht werden"
+        },
+        "name": {
+          "blocks": {
+            "name": {
+              "label": "Name der Vorlage"
+            }
+          }
+        },
+        "models": {
+          "title": "Zuteilungen",
+          "blocks": {
+            "models": {
+              "label": "Modell auswählen und Anzahl zuweisen",
+              "not_found": "Modell nicht gefunden",
+              "select": "Modell auswählen",
+              "placeholder": "Modell suchen",
+              "search_empty": "Geben Sie mindestens 2 Zeichen ein",
+              "searching": "Suche..."
+            }
+          }
+        }
+      }
+    },
+    "software": {
+      "title": "Software bearbeiten",
+      "submit": "Speichern",
+      "cancel": "Abbrechen",
+      "description": "Nehmen Sie Änderungen vor und speichern Sie anschliessend",
+      "create": {
+        "title": "Neue Software erstellen",
+        "description": "Geben Sie alle erforderlichen Informationen an",
+        "submit": "Software speichern",
+        "cancel": "Abbrechen",
+        "success": "Software wurde erfolgreich erstellt",
+        "invalid_one": "Software konnte nicht erstellt werden, da ein Feld ungültig ist",
+        "invalid_other": "Software konnte nicht erstellt werden, da {{count}} Felder ungültig sind",
+        "409": "Software konnte nicht erstellt werden, da eine Software mit dem gleichen Namen bereits existiert",
+        "500": "Beim Erstellen ist ein Fehler aufgetreten"
+      },
+      "edit": {
+        "delete": "Löschen",
+        "success": "Software wurde erfolgreich gespeichert",
+        "invalid_one": "Software konnte nicht gespeichert werden, da ein Feld ungültig ist",
+        "invalid_other": "Software konnte nicht gespeichert werden, da {{count}} Felder ungültig sind"
+      },
+      "delete": {
+        "title": "Software löschen",
+        "description": "Sind Sie sicher, dass Sie diese Software löschen möchten?",
+        "confirm": "Löschen",
+        "cancel": "Abbrechen",
+        "success": "Software wurde erfolgreich gelöscht",
+        "error": "Software konnte nicht gelöscht werden",
+        "500": "Software konnte nicht gelöscht werden"
+      },
+      "software": {
+        "title": "Software",
+        "blocks": {
+          "product": {
+            "label": "Produkt"
+          },
+          "version": {
+            "label": "Version"
+          },
+          "manufacturer": {
+            "label": "Hersteller",
+            "search": "Hersteller suchen",
+            "select": "Hersteller auswählen",
+            "add_new": "Neuen Hersteller hinzufügen",
+            "empty": "Keine Hersteller zu diesem Suchbegriff gefunden"
+          },
+          "software_information": {
+            "label": "Software Informationen"
+          }
+        }
+      },
+      "attachments": {
+        "title": "Anhänge",
+        "blocks": {
+          "attachments": {
+            "table": {
+              "description": "Bezeichnung"
+            },
+            "label": "Datei",
+            "select": "Datei auswählen",
+            "not_found": "Datei nicht gefunden"
+          }
+        }
+      }
+    },
+    "option": {
+      "create": {
+        "title": "Neue Option erstellen",
+        "description": "Geben Sie alle erforderlichen Informationen an",
+        "submit": "Option speichern",
+        "cancel": "Abbrechen",
+        "success": "Option wurde erfolgreich erstellt",
+        "invalid_one": "Option konnte nicht erstellt werden, da ein Feld ungültig ist",
+        "invalid_other": "Option konnte nicht erstellt werden, da {{count}} Felder ungültig sind",
+        "409": "Option konnte nicht erstellt werden, da eine Option mit dem gleichen Iventarcode bereits existiert",
+        "500": "Beim Erstellen ist ein Fehler aufgetreten"
+      },
+      "edit": {
+        "title": "Option bearbeiten",
+        "description": "Geben Sie alle erforderlichen Informationen an",
+        "submit": "Option speichern",
+        "cancel": "Abbrechen",
+        "success": "Option wurde erfolgreich gespeichert",
+        "invalid_one": "Option konnte nicht erstellt werden, da ein Feld ungültig ist",
+        "invalid_other": "Option konnte nicht erstellt werden, da {{count}} Felder ungültig sind",
+        "409": "Option konnte nicht erstellt werden, da eine Option mit dem gleichen Iventarcode bereits existiert",
+        "500": "Beim Erstellen ist ein Fehler aufgetreten"
+      },
+      "delete": {
+        "title": "Option löschen",
+        "description": "Sind Sie sicher, dass Sie diese Option löschen möchten?",
+        "confirm": "Löschen",
+        "cancel": "Abbrechen",
+        "success": "Option wurde erfolgreich gelöscht",
+        "error": "Option konnte nicht gelöscht werden"
+      },
+      "option": {
+        "title": "Option",
+        "blocks": {
+          "product": {
+            "label": "Produkt"
+          },
+          "inventory_code": {
+            "label": "Inventarcode",
+            "description": "Alphanumerischer Code, der die Option eindeutig identifiziert. Kein Sonderzeichen erlaubt ausser \"-\"."
+          },
+          "version": {
+            "label": "Version"
+          },
+          "price": {
+            "label": "Preis"
+          }
+        }
+      }
+    },
+    "model": {
+      "title": "Modell bearbeiten",
+      "submit": "Speichern",
+      "cancel": "Abbrechen",
+      "description": "Nehmen Sie Änderungen vor und speichern Sie anschliessend",
+      "product": {
+        "title": "Produkt",
+        "blocks": {
+          "package": {
+            "label": "dies ist ein Paket"
+          },
+          "product": {
+            "label": "Produkt"
+          },
+          "version": {
+            "label": "Version"
+          },
+          "manufacturer": {
+            "label": "Hersteller",
+            "search": "Hersteller suchen",
+            "select": "Hersteller auswählen",
+            "add_new": "Neuen Hersteller hinzufügen",
+            "empty": "Keine Hersteller zu diesem Suchbegriff gefunden"
+          },
+          "description": {
+            "label": "Beschreibung"
+          },
+          "technical_detail": {
+            "label": "Technische Details"
+          },
+          "internal_description": {
+            "label": "Interne Beschreibung"
+          },
+          "hand_over_note": {
+            "label": "Wichtige Notizen zur Aushändigung"
+          }
+        }
+      },
+      "entitlements": {
+        "title": "Zuteilungen",
+        "blocks": {
+          "entitlements": {
+            "label": "Zuteilung (max {{amount}})",
+            "select": "Anspruchsgruppe auswählen",
+            "not_found": "Anspruchsgruppe nicht gefunden"
+          }
+        }
+      },
+      "categories": {
+        "title": "Kategorien",
+        "blocks": {
+          "categories": {
+            "label": "Kategorie",
+            "placeholder": "Kategorie auswählen",
+            "select": "Kategorie auswählen",
+            "not_found": "Kategorie nicht gefunden"
+          }
+        }
+      },
+      "images": {
+        "title": "Bilder",
+        "blocks": {
+          "image_upload": {
+            "table": {
+              "description": "Bezeichnung",
+              "cover_image": "Titelbild"
+            },
+            "label": "Kategorie",
+            "select": "Kategorie auswählen",
+            "not_found": "Kategorie nicht gefunden"
+          }
+        }
+      },
+      "attachments": {
+        "title": "Anhänge",
+        "blocks": {
+          "attachments": {
+            "table": {
+              "description": "Bezeichnung"
+            },
+            "label": "Datei",
+            "select": "Datei auswählen",
+            "not_found": "Datei nicht gefunden"
+          }
+        }
+      },
+      "accessories": {
+        "title": "Accessoires",
+        "blocks": {
+          "accessories": {
+            "add_button": "Zubehör hinzufügen"
+          }
+        }
+      },
+      "compatible_models": {
+        "title": "Ergänzende Modelle",
+        "blocks": {
+          "compatible_models": {
+            "label": "Modell auswählen",
+            "not_found": "Modell nicht gefunden",
+            "select": "Modell auswählen",
+            "search": "Modell suchen",
+            "search_empty": "Geben Sie mindestens 2 Zeichen ein",
+            "searching": "Suche..."
+          }
+        }
+      },
+      "model_properties": {
+        "title": "Eigenschaften",
+        "blocks": {
+          "model_properties": {
+            "table": {
+              "property": "Eigenschaft",
+              "value": "Wert"
+            },
+            "add_button": "Eigenschaft hinzufügen"
+          }
+        }
+      },
+      "create": {
+        "title": "Neues Modell erstellen",
+        "description": "Nehmen Sie Änderungen vor und speichern Sie anschliessend",
+        "submit": "Erstellen",
+        "add_item": "Erstellen und Gegenstand hinzufügen",
+        "cancel": "Abbrechen",
+        "success": "Modell wurde erfolgreich erstellt",
+        "invalid_one": "Modell konnte nicht erstellt werden, da ein Feld ungültig ist",
+        "invalid_other": "Modell konnte nicht erstellt werden, da {{count}} Felder ungültig sind",
+        "409": "Modell konnte nicht erstellt werden, da ein Modell mit dem gleichen Namen bereits existiert",
+        "500": "Beim Erstellen ist ein Fehler aufgetreten"
+      },
+      "edit": {
+        "success": "Modell wurde erfolgreich gespeichert",
+        "add_item": "Speichern und Gegenstand hinzufügen",
+        "invalid_one": "Modell konnte nicht gespeichert werden, da ein Feld ungültig ist",
+        "invalid_other": "Modell konnte nicht gespeichert werden, da {{count}} Felder ungültig sind"
+      },
+      "delete": {
+        "title": "Modell löschen",
+        "description": "Sind Sie sicher, dass Sie dieses Modell löschen möchten?",
+        "confirm": "Löschen",
+        "cancel": "Abbrechen",
+        "success": "Modell wurde erfolgreich gelöscht",
+        "500": "Modell konnte nicht gelöscht werden"
+      }
+    }
+  },
+  "models": {
+    "title": "Inventarliste - Ausleihe Toni Areal Localized",
+    "tabs": {
+      "entitlement-groups": "Anspruchsgruppen"
+    }
+  },
+  "debug": {
+    "welcome": "Willkommen",
+    "welcome-text": "Willkommen auf der Debug Seite. Hier gibt es ein paar nützliche Funktionalität"
+  },
+  "translate-check": {
+    "open": "Open Translation Check"
+  },
+  "root": {
+    "welcome": "Welcome to Leihs Inventory!"
+  },
+  "notfound": {
+    "back-to-home": "Zurück zur Startseite"
+  },
+  "error": {
+    "alerts": {
+      "offline": {
+        "title": "Keine Internetverbindung",
+        "description": "Es scheint als wären Sie offline. Bitte überprüfen Sie Ihre Internetverbindung."
+      }
+    },
+    "boundary": {
+      "not_found": {
+        "title": "Seite nicht gefunden",
+        "description": "Die gesuchte Seite existiert nicht oder wurde verschoben."
+      },
+      "unauthorized": {
+        "title": "Nicht autorisiert",
+        "description": "Sie müssen sich anmelden, um auf diese Seite zuzugreifen."
+      },
+      "forbidden": {
+        "title": "Zugriff verweigert",
+        "description": "Sie haben keine Berechtigung, um auf diese Seite zuzugreifen."
+      },
+      "bad_request": {
+        "title": "Ungültige Anfrage",
+        "description": "Der Server konnte Ihre Anfrage nicht verarbeiten."
+      },
+      "server_error": {
+        "title": "Serverfehler",
+        "description": "Auf dem Server ist etwas schief gelaufen. Bitte versuchen Sie es später erneut."
+      },
+      "client_error": {
+        "title": "Clientfehler",
+        "description": "Es gab ein Problem mit der Applikation. Bitte versuchen Sie es erneut."
+      },
+      "loader_error": {
+        "title": "Ladefehler",
+        "description": "Die Daten für diese Seite konnten nicht geladen werden. Bitte versuchen Sie es erneut."
+      },
+      "application_error": {
+        "title": "Applikationsfehler",
+        "description": "Es gab ein Problem mit der Applikation. Bitte versuchen Sie es erneut."
+      },
+      "unknown": {
+        "title": "Ein Fehler ist aufgetreten",
+        "description": "Es ist ein unerwarteter Fehler aufgetreten. Bitte versuchen Sie es erneut oder kontaktieren Sie den Support, falls das Problem weiterhin besteht."
+      },
+      "open": "Fehlermeldung anzeigen",
+      "actions": {
+        "close": "Schliessen",
+        "go_back": "Zurück",
+        "go_home": "Zur Startseite",
+        "go_signin": "Zur Anmeldung",
+        "retry": "Erneut versuchen"
+      }
+    }
+  }
+}

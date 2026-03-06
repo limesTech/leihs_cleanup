@@ -1,0 +1,47 @@
+# NOTE: instead of 'hosts: localhost' we need to use 'hosts: all' + 'delegate_to: localhost' so it works when using the `--limit $HOST` argument! `gather_facts: no` is also needed because of this, because in this step we dont want to connect to the remote server(s) yet.
+- hosts: all
+  gather_facts: no
+  tasks:
+    - name: Build Admin
+      delegate_to: localhost
+      tags: build_admin
+      import_role:
+        name: leihs-admin-install
+        tasks_from: build.yml
+
+    - name: Build Borrow
+      delegate_to: localhost
+      tags: build_borrow
+      import_role:
+        name: leihs-borrow-install
+        tasks_from: build.yml
+
+    - name: Build Mail
+      delegate_to: localhost
+      tags: build_mail
+      import_role:
+        name: leihs-mail-install
+        tasks_from: build.yml
+
+    - name: Build My
+      delegate_to: localhost
+      tags: build_my
+      import_role:
+        name: leihs-my-install
+        tasks_from: build.yml
+
+    - name: Build Inventory
+      tags: build_inventory
+      include_role:
+        tasks_from: build.yml
+        name: deploy
+
+    - name: Build Procure
+      delegate_to: localhost
+      tags: build_procure
+      import_role:
+        name: leihs-procure-install
+        tasks_from: build.yml
+
+    - debug:
+        msg: "All local builds OK!"

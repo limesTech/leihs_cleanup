@@ -1,0 +1,34 @@
+[Unit]
+Description=Leihs Mail Service
+After=syslog.target
+After=network.target
+
+BindsTo=leihs-migration.service
+After=leihs-migration.service
+PartOf=leihs-migration.service
+
+StartLimitIntervalSec=180
+StartLimitBurst=6
+
+
+[Service]
+SyslogIdentifier=leihs-mail
+WorkingDirectory={{leihs_mail_dir}}
+User={{leihs_mail_user}}
+Group={{leihs_mail_user}}
+
+LimitNOFILE=64000
+Restart=always
+RestartSec=5
+
+EnvironmentFile=/etc/leihs/config.env
+Environment=DB_MAX_POOL_SIZE=10
+
+ExecStart=/usr/bin/env java "-Xmx500m" -jar leihs-mail.jar run
+
+
+[Install]
+WantedBy=multi-user.target
+WantedBy=leihs-migration.service
+
+# vi: ft=sh

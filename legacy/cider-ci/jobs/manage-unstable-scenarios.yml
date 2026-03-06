@@ -1,0 +1,32 @@
+jobs:
+
+  manage-unstable-scenarios:
+
+    name: 'Manage: Unstable Scenarios'
+
+    description: |
+      Run Manage unstable scenarios
+
+    priority: -100
+
+    depends_on:
+      include:
+        - cider-ci/job-components/manage-flapping-scenarios-passed.yml
+
+    run_when:
+      include:
+        - cider-ci/job-components/manage-flapping-scenarios-passed.yml
+
+
+    context:
+
+      task_defaults:
+        load: 1.5
+        max_trials: 6
+        eager_trials: 2
+        include:
+          - cider-ci/task-components/database.yml
+
+      include:
+        - cider-ci/shared/main-context.yml
+        - cider-ci/tasks/manage-unstable-scenarios.yml

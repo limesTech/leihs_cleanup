@@ -1,0 +1,20 @@
+query getFilters {
+  mainCategories: rootCategories {
+    id
+    label: name
+    images {
+      imageUrl
+    }
+  }
+  pools: inventoryPools {
+    id
+    label: name
+  }
+  currentUser {
+    user {
+      id
+      firstname
+      lastname
+    }
+  }
+}

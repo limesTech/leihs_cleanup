@@ -1,0 +1,92 @@
+jobs:
+
+  meta:
+
+    name: Meta
+    description: |
+      Various superordinate quality assurance tasks
+
+    run_when:
+      always:
+        type: branch
+        include_match: '^.*$'
+        exclude_match: '^.*(no-ci|hotspot).*$'
+
+    context:
+      include:
+        - cider-ci/shared/main-context.yml
+
+      task_defaults:
+        max_trials: 1
+        traits:
+          Ruby: true
+          asdf: true
+
+      tasks:
+
+        scenario tasks are up-to-date:
+          name: "Scenario tasks are up-to-date"
+          include:
+            - path: cider-ci/task-components/bundle-rspec-ruby.yml
+          scripts:
+            test:
+              body: |
+                #!/usr/bin/env bash
+                set -exu
+                ./cider-ci/bin/create-scenario-tasks.rb
+                test -z "$(git status --porcelain cider-ci/tasks)"
+
+        assets compiled if changed:
+          name: "Assets have been precompiled and checked in"
+          include:
+            - path: cider-ci/task-components/database.yml
+              submodules: database
+          environment_variables:
+            RAILS_ENV: production
+            LEIHS_SECRET: secret
+          scripts:
+            test:
+              start_when:
+                legacy_ruby_ready:
+                  script_key: legacy-bundle-rspec-ruby
+              timeout: 10 Minutes
+              body: |
+                set -eu
+                export PATH=./node_modules/.bin:$PATH
+
+                asdf install nodejs
+
+                mv public/assets tmp/checked_in_assets
+                # bundle exec rake app:i18n:po2json
+                bin/recompile-assets
+
+                # attach for easy local debugging:
+                mkdir -p tmp/attach && tar czf tmp/attach/assets.tar.gz public/assets
+
+                # ls -la tmp/checked_in_assets
+                # ls -la public/assets
+
+                cider-ci/bin/check-precompiled-assets tmp/checked_in_assets public/assets
+
+                # don't keep the attachment if there was no failure!
+                rm tmp/attach/assets.tar.gz
+
+        backend and frontend locales are synchronised:
+          name: "Backend and frontend locales are synchronised"
+          scripts:
+            test:
+              body:
+                read_and_replace_with: cider-ci/bin/check-locales-are-synchronised
+
+        extract missing and fuzzy translations:
+          name: "Extract missing and fuzzy translations"
+          max_trials: 5
+          eager_trials: 3
+          tree_attachments:
+            translation-todos:
+              include_match: tmp\/translation-todos\/.*\.po$
+              content_type: text/plain
+          scripts:
+            test:
+              body:
+                read_and_replace_with: bin/translation-todos

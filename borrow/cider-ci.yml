@@ -1,0 +1,155 @@
+include: container-build/cider-ci.yml
+
+jobs:
+  borrow-build-uberjar:
+    name: Build prod ready uberjar
+    run_when: &ON_BRANCH_UPDATE
+      any branch has been updated:
+        type: branch
+        include_match: ^.*$
+        exclude_match: '^.*(no-ci|hotspot).*$'
+    include: cider-ci/jobs/uberjar.yml
+
+  backend-specs:
+    name: 'Backend: Run specs'
+    depends_on: &BACKEND_SPEC_DEPS
+      uberjar was built:
+        type: job
+        job_key: borrow-build-uberjar
+        states: [passed]
+    run_when: *BACKEND_SPEC_DEPS
+    context:
+      include: cider-ci/jobs/backend_specs.yml
+
+  check-feature-tasks:
+    name: Check if feature tasks are up to date
+    run_when: *ON_BRANCH_UPDATE
+    context:
+      include: cider-ci/jobs/feature_tasks_check.yml
+
+  feature-specs:
+    name: Feature specs
+    depends_on: &FEATURE_SPECS_DEPS
+      uberjar was built:
+        type: job
+        job_key: borrow-build-uberjar
+        states: [passed]
+      feature tasks are up to date:
+        type: job
+        job_key: check-feature-tasks
+        states: [passed]
+    run_when: *FEATURE_SPECS_DEPS
+    context:
+      include: cider-ci/jobs/feature_specs.yml
+
+  ui-checks:
+    name: Check UI package
+    run_when: *ON_BRANCH_UPDATE
+    tasks:
+      ui-lint:
+        git_options:
+          submodules:
+            include_match: ^.*$
+        scripts:
+          test:
+            body: |
+              ./ui/bin/lint
+
+  lint:
+    name: 'Linting'
+    description: |
+      Code checks: static checks and metrics: complexity, duplication, and format,
+        also other consistency checks.
+    priority: 3
+    run_when:
+      any branch has been updated:
+        type: branch
+        include_match: ^.*$
+        exclude_match: '^.*(no-ci|hotspot).*$'
+    context:
+      task_defaults:
+        git_options:
+          submodules:
+            include_match: ^.*$
+      tasks:
+        cljc-lint:
+          scripts:
+            test:
+              body: |
+                #!/usr/bin/env bash
+                set -euo pipefail
+                ./bin/cljfmt check
+        ruby-lint:
+          scripts:
+            test:
+              body: |
+                #!/usr/bin/env bash
+                set -euo pipefail
+                ./bin/rblint
+
+  all-ok:
+    name: 'All Tests OK'
+    depends_on: &ALLOK_DEPS
+      backend-specs was successful:
+        type: job
+        job_key: backend-specs
+        states: [passed]
+      feature-specs was successful:
+        type: job
+        job_key: feature-specs
+        states: [passed]
+      borrow-build-uberjar was successful:
+        type: job
+        job_key: borrow-build-uberjar
+        states: [passed]
+      ui-checks were successful:
+        type: job
+        job_key: ui-checks
+        states: [passed]
+      lints were successful:
+        type: job
+        job_key: lint
+        states: [passed]
+      database merged to master:
+        job_key: merged-to-master
+        type: job
+        submodule: ['database']
+        states: [passed]
+      shared-clj merged to master:
+        job_key: merged-to-master
+        type: job
+        submodule: [shared-clj]
+        states: [passed]
+    run_when: *ALLOK_DEPS
+    task: 'echo ALL OK'
+
+  good-to-merge:
+    name: '⚑ Good To Merge'
+    priority: 99 # no tasks here anyways
+    description: |
+      This job depends on all other tests and checks
+      and it will pass if and only if all dependencies have passed.
+      Status of this job is **used by github's "branch protection"**!
+    depends_on: &GOOD_TO_MERGE_DEPENDENCIES
+      all passed: { type: job, job_key: all-ok, states: [passed] }
+    run_when: *GOOD_TO_MERGE_DEPENDENCIES
+    context:
+      include: cider-ci/jobs/good-to-merge.yml
+
+  merged-to-master:
+    name: 'Merged to master'
+    priority: 999
+    depends_on:
+      master branch matches:
+        type: branch
+        include_match: ^master$
+    run_when:
+      master branch matches:
+        type: branch
+        include_match: ^master$
+    context:
+      tasks:
+        merged-to-master:
+          scripts:
+            test:
+              body: 'exit 0'

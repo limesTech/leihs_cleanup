@@ -1,0 +1,46 @@
+- template:
+    src: dump-leihs-db
+    dest: /usr/local/bin/dump-leihs-db
+    mode: 0755
+  name: setup dump-leihs-db script
+
+- file:
+    path: '{{db_backup_dir}}'
+    state: directory
+  name: make sure db_backup_dir exists
+
+- template:
+    src: leihs-db-backup.service
+    dest: /etc/systemd/system/leihs-db-backup.service
+    mode: 0644
+  name: install leihs-db-backup.service
+
+- template:
+    src: leihs-db-backup.timer
+    dest: /etc/systemd/system/leihs-db-backup.timer
+    mode: 0644
+  name: install leihs-db-backup.timer
+
+- command: systemctl daemon-reload
+  changed_when: false
+  name: reload systemctl
+
+- service:
+    name: leihs-db-backup.service
+    enabled: yes
+    state: stopped
+  name: enable backup service
+
+- service:
+    name: leihs-db-backup.timer
+    enabled: yes
+    state: started
+  when: db_backup_nightly_enabled
+  name: enable backup timer
+
+- service:
+    name: leihs-db-backup.timer
+    enabled: no
+    state: stopped
+  when: not db_backup_nightly_enabled
+  name: disable backup timer

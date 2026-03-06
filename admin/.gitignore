@@ -1,0 +1,25 @@
+**/.DS_Store
+.cider-ci_private/
+.lein-env
+.lein-failures
+.lein-repl-history
+.nrepl-port
+.rebel_readline_history
+/.clj-kondo/rewrite-clj/
+/.cpcache
+/.sass-cache
+/.shadow-cljs
+/log
+/node_modules
+/resources/public/admin/js/
+/target
+/tmp
+figwheel_server.log
+profiles.clj
+resources/built-info.yml
+
+# ui
+ui/storybook-static
+ui/node_modules
+ui/dist
+

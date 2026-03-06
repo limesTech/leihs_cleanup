@@ -1,0 +1,7 @@
+eval_gemfile "database/Gemfile"
+
+gem "faraday"
+gem "graphlient"
+
+# dev
+gem "solargraph"

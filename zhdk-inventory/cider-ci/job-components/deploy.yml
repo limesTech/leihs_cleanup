@@ -1,0 +1,97 @@
+priority: 2
+
+context:
+  task_defaults:
+    environment_variables:
+      LEIHS_DIR: "{{CIDER_CI_WORKING_DIR}}"
+      DEPLOY_DIR: "{{LEIHS_DIR}}/deploy"
+      INVENTORY_DIR: "{{CIDER_CI_WORKING_DIR}}/zhdk-inventory"
+      STATUS_PAGE_URL: "" # should only be set for dev servers
+
+  tasks:
+    deploy:
+      git_options:
+        submodules:
+          include_match: ^.*$
+
+      traits:
+        asdf: true
+        zhdk-leihs-deploy: true
+
+      max_trials: 1
+
+      trial_attachments:
+        server_log:
+          include_match: ".*server_log.*"
+          content_type: text/plain
+
+      scripts:
+        unlock:
+          body: |
+            #!/usr/bin/env bash
+            set -euo pipefail
+            cd ${INVENTORY_DIR}
+            echo $(pwd)
+            ls -lah ./bin
+            ./bin/unlock
+
+        pre-install-ruby:
+          exclusive_executor_resource: asdf-ruby
+          timeout: 20 Minutes
+          body: |
+            #!/usr/bin/env bash
+            set -euo pipefail
+            cd $DEPLOY_DIR
+            ./bin/env/ruby-setup
+
+        pre-install-nodejs:
+          exclusive_executor_resource: asdf-nodejs
+          timeout: 20 Minutes
+          body: |
+            #!/usr/bin/env bash
+            set -euo pipefail
+            cd $DEPLOY_DIR
+            ./bin/env/nodejs-setup
+
+        pre-install-python:
+          exclusive_executor_resource: asdf-python
+          timeout: 20 Minutes
+          body: |
+            #!/usr/bin/env bash
+            set -euo pipefail
+            cd $DEPLOY_DIR
+            ./bin/env/python-setup
+
+        pre-build:
+          timeout: 45 Minutes
+          start_when:
+            unlock_passed:
+              script_key: unlock
+              states: [passed]
+            python-installed:
+              script_key: pre-install-python
+            ruby-installed:
+              script_key: pre-install-ruby
+            nodejs-installed:
+              script_key: pre-install-nodejs
+          exclusive_executor_resource: leihs-build
+          body: |
+            #!/usr/bin/env bash
+            set -euo pipefail
+            cd $DEPLOY_DIR
+            ./bin/build
+
+        deploy:
+          timeout: 30 Minutes
+          start_when:
+            pre-build_passed:
+              script_key: pre-build
+
+          body: |
+            #!/usr/bin/env bash
+            set -euo pipefail
+            cd deploy
+            export ANSIBLE_HOST_KEY_CHECKING=False
+            bin/ansible-playbook deploy_play.yml \
+              -i ../zhdk-inventory/${DEPLOY_TARGET_INVENTORY}
+

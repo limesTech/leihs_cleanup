@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# remove this packet if installed - its not needed and causes problems on Ubuntu
+apt-get purge -y -f open-iscsi || true
+
+apt-get update
+
+# extra packages for testing the container:
+apt-get install -y -f curl ssh

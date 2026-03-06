@@ -1,0 +1,19 @@
+- content_for :title, "#{_("Create new option")}"
+- content_for :inventory_section, "active"
+
+.wrapper.margin-top-m
+
+  = render :partial => 'manage/tabs/inventory', :locals => {:active_tab => :inventory}
+
+  .row.content-wrapper.min-height-xl.min-width-full.straight-top
+
+    = form_tag manage_create_option_path(current_inventory_pool), method: :post do
+
+      .margin-top-l.padding-horizontal-m
+        .row
+          .col2of3
+            %h1.headline-l= _("Create new option")
+            %h2.headline-s.light= _("Insert all required information")
+          = render 'buttons'
+
+      = render 'form_fields'

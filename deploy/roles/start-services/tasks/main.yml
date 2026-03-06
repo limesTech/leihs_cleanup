@@ -1,0 +1,90 @@
+
+### disable services ###########################################################
+# we need to disable and then enable the services to make sure links
+# for auto-starting the services are created correctly
+
+- name: disable {{item}}.service
+  service:
+    name: '{{item}}'
+    state: stopped
+    enabled: false
+  with_items:
+    - leihs-admin.service
+    - leihs-borrow.service
+    - leihs-legacy.service
+    - leihs-mail.service
+    - leihs-my.service
+    - leihs-procure.service
+    - leihs-migration.service
+  failed_when: false
+
+- name: disable leihs-inventory.service
+  when: publish_inventory == false
+  service:
+    name: 'leihs-inventory.service'
+    state: stopped
+    enabled: false
+  failed_when: false
+
+### start and enable services ##################################################
+#
+- name: enable and start {{item}}
+  service:
+    name: '{{item}}'
+    state: started
+    enabled: true
+  with_items:
+    - leihs-migration.service
+    - leihs-admin.service
+    - leihs-borrow.service
+    - leihs-legacy-cron.timer
+    - leihs-legacy.service
+    - leihs-mail.service
+    - leihs-my.service
+    - leihs-procure.service
+
+- name: enable and start leihs-inventory.service
+  when: publish_inventory == true
+  service:
+    name: 'leihs-inventory.service'
+    state: started
+    enabled: true
+
+### wait for services to start #################################################
+
+- name: wait for leihs-admin.service
+  wait_for:
+    host: localhost
+    port: "{{LEIHS_ADMIN_HTTP_PORT}}"
+    timeout: 180
+
+- name: wait for leihs-my.service
+  wait_for:
+    host: localhost
+    port: "{{LEIHS_MY_HTTP_PORT}}"
+    timeout: 180
+
+- name: wait for leihs-inventory.service
+  when: publish_inventory == true
+  wait_for:
+    host: localhost
+    port: "{{LEIHS_INVENTORY_HTTP_PORT}}"
+    timeout: 180
+
+- name: wait for leihs-borrow.service
+  wait_for:
+    host: localhost
+    port: "{{LEIHS_BORROW_HTTP_PORT}}"
+    timeout: 180
+
+- name: wait for leihs-procure.service
+  wait_for:
+    host: localhost
+    port: "{{LEIHS_PROCURE_HTTP_PORT}}"
+    timeout: 180
+
+- name: wait for leihs-legacy.service
+  wait_for:
+    host: localhost
+    port: "{{LEIHS_LEGACY_HTTP_PORT}}"
+    timeout: 180

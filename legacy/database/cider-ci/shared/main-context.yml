@@ -1,0 +1,29 @@
+script_defaults:
+  template_environment_variables: true
+  timeout: 6 minutes
+
+task_defaults:
+
+  traits:
+    'PostgreSQL 15': true
+
+  include: cider-ci/task-components/bundle-rspec-ruby.yml
+
+  git_options:
+    submodules:
+      include_match: ^.*$
+
+  environment_variables:
+    PGVERSION: '15'
+    RAILS_ENV: test
+    LEIHS_DATABASE_NAME: "leihs_{{CIDER_CI_TRIAL_ID}}"
+
+  trial_attachments:
+    screenshots:
+      include_match: tmp\/capybara\/.*\.png$
+      content_type: image/png
+
+  tree_attachments:
+    deprecation-warnings:
+      include_match: tmp\/deprecation-warnings\.txt$
+      content_type: text/plain

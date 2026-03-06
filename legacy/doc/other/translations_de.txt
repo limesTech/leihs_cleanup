@@ -1,0 +1,17 @@
+Acknowledge			=			Bestellung quittieren
+Purpose				=			Verwendungszweck
+Time window			=			Zeitfenster
+Reserver			=			Reservierender
+Changes				=			Änderungen
+Delete				=			Löschen
+Delete Order		=			Bestellung löschen
+Hand Over			=			Herausgeben
+Take Back			=			Zurücknehmen
+Remind				=			Mahnen
+Inventory Pool		=			Gerätepark
+My Account			=			Mein Konto
+Change				=			Ändern
+Logout				=			Abmelden
+Options				=			Zubehör
+Items				=			Pakete
+

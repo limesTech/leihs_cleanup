@@ -1,0 +1,96 @@
+query getCurrentUser(
+  $includeDelegation: Boolean
+  $delegationId: UUID
+  $includeLanguages: Boolean
+) {
+  currentUser {
+    user {
+      id
+      firstname
+      lastname
+      name
+      delegations {
+        id
+        name
+      }
+      inventoryPools(orderBy: [{ attribute: NAME, direction: ASC }]) {
+        id
+        name
+        maximumReservationDuration
+        hasReservableItems
+      }
+      suspensions {
+        inventoryPool {
+          id
+        }
+      }
+      unsubmittedOrder {
+        validUntil
+        reservations {
+          id
+          inventoryPool {
+            id
+            name
+          }
+          model {
+            id
+            name
+            images {
+              id
+              imageUrl
+            }
+            coverImage {
+              id
+              imageUrl
+            }
+          }
+          startDate
+          endDate
+        }
+        invalidReservationIds
+        userId
+      }
+    }
+    languageToUse {
+      locale
+    }
+    sessionId
+    nav {
+      adminUrl
+      procureUrl
+      manageNavItems {
+        name
+        url
+      }
+      documentationUrl
+    }
+  }
+  delegation(id: $delegationId) @include(if: $includeDelegation) {
+    id
+    name
+    inventoryPools(orderBy: [{ attribute: NAME, direction: ASC }]) {
+      id
+      name
+      maximumReservationDuration
+      hasReservableItems
+    }
+    suspensions {
+      inventoryPool {
+        id
+      }
+    }
+  }
+  languages @include(if: $includeLanguages) {
+    name
+    locale
+  }
+  currentLendings: reservations(
+    metaState: CURRENT_LENDING
+    userId: $delegationId
+  ) {
+    id
+    status
+    startDate
+    actualEndDate
+  }
+}

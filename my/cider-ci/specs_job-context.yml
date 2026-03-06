@@ -1,0 +1,49 @@
+tasks:
+  include: cider-ci/generators/feature-tasks.yml
+
+task_defaults:
+  traits:
+    asdf: true
+    Firefox-ESR: true # ensures deps for asdf-firefox
+  include:
+    - path: cider-ci/task-components/database.yml
+      submodule: [database]
+    - cider-ci/task-components/ruby-bundle.yml
+    - cider-ci/task-components/service.yml
+    - cider-ci/task-components/test-auth-system.yml
+    - cider-ci/task-components/uberjar.yml
+  ports:
+    LEIHS_MY_HTTP_PORT:
+      min: 3000
+      max: 3999
+    TEST_AUTH_SYSTEM_PORT:
+      min: 3000
+      max: 3999
+  environment_variables:
+    LEIHS_DATABASE_NAME: leihs_{{CIDER_CI_TRIAL_ID}}
+    DB_NAME: "{{LEIHS_DATABASE_NAME}}"
+    LEIHS_MY_DIR: '{{CIDER_CI_WORKING_DIR}}'
+    LEIHS_DATABASE_DIR: '{{LEIHS_MY_DIR}}/database'
+    LEIHS_MY_HTTP_HOST: localhost
+    LEIHS_MY_HTTP_BASE_URL: http://{{LEIHS_MY_HTTP_HOST}}:{{LEIHS_MY_HTTP_PORT}}
+    RAILS_ENV: test
+  git_options:
+    submodules:
+      include_match: ^.*$
+  trial_attachments:
+    screenshots:
+      include_match: '^tmp\/screenshots\/.+\.png$'
+      content_type: image/png
+  scripts:
+    test:
+      body: |
+        #!/usr/bin/env bash
+        set -euo pipefail
+        cd $LEIHS_MY_DIR
+        echo "# FEATURE_NAME: $FEATURE_NAME"
+        echo "# FEATURE: $FEATURE"
+        mkdir -p log
+        unset PGPORT; unset PGUSER
+        PGPORT=${PG15PORT} PGUSER=${PG15USER} \
+          xvfb-run -a -e log/xvfb.log  \
+          ./bin/rspec "${FEATURE}"

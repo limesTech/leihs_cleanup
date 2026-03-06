@@ -1,0 +1,12 @@
+:ruby
+  key = "#{_("Allocations")}"
+  if @model.persisted?
+    max_borrowable_quantity = @model.borrowable_items.where(inventory_pool_id: current_inventory_pool).count
+  end
+
+#allocations
+  = render :layout => "manage/fields/field", :locals => {key: key, max_borrowable_quantity: max_borrowable_quantity, entries: @model.entitlements, entry_partial: "manage/models/form/model/allocation_inline_entry"} do
+    .row
+      %input.has-addon.width-full{:"data-type" => "autocomplete", :type => :text, :autocomplete => :off, :placeholder => _("Group")}
+      .addon.transparent
+        %i.arrow.down
